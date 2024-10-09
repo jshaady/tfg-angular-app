@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>{{'header.login' | translate}}</h2>
+            <form [formGroup]="formModel" class="mb-4" autocomplete="off" (submit)="onSubmit()">
+                <div class="mb-3">
+                    <mat-form-field class="mat-form-field">
+                        <input matInput placeholder="{{'login.username' | translate}}" formControlName="UserName">
+                        <mat-error
+                            *ngIf="formModel.get('UserName').touched && formModel.get('UserName').errors?.required">
+                            {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mb-2">
+                    <mat-form-field class="mat-form-field">
+                        <input type="password" matInput placeholder="{{'login.password' | translate}}" formControlName="Password" autocomplete="autocomplete">
+                        <mat-error
+                            *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.required">
+                            {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <mat-error
+                            *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.minlength">
+                            {{'errors.mincharacters' | translate:mincharacters}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mb-3">
+                    <div class="text-danger" *ngIf="getErrors()" [translate]="'responsemessages.' + getErrors()"></div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="button-submit form-control" mat-raised-button
+                        [disabled]="formModel.invalid || isSaving()">{{'header.login' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

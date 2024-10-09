@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="formModel" (submit)="search()">
+        <div class="row mt-3">
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 ">
+            <div class="dato">
+              <mat-form-field class="mat-form-field">
+                <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
+                  spellcheck="false" formControlName="Location" ngx-google-places-autocomplete [options]='options'
+                  #placesRef="ngx-places" (focusout)="focusOut($event.target.value)">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></div>
+          <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div class="dato">
+              <mat-form-field class="mat-form-field">
+                <input matInput placeholder="{{'teams.teamname' | translate}}" formControlName="Teamname">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            <button type="submit" class="button-submit form-control"
+              mat-raised-button>{{'teams.search' | translate}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-12" *ngIf="getTeamsSearch()">
+      <div class="row teams-wrapper justify-content-center">
+        <div class="no-teams mt-4 text-center" *ngIf="!getTeamsSearch().length">
+          <h3>{{'teams.noteamfound' | translate}}</h3></div>
+        <div *ngIf="getTeamsSearch().length" class="col-12">
+          <div [routerLink]="['/team', team.teamname]" *ngFor="let team of getTeamsSearch()">
+            <mat-card class="team-card">
+              <mat-card-content>
+                <div class="team-profile">
+                  <div class="team-img">
+                    <img [src]="getTeamAvatar(team.teamAvatarBase64, team.avatarType)" class="team-img"
+                      alt="{{'teams.teamimg' | translate}}">
+                  </div>
+                </div>
+                <div class="gradient-style-div"></div>
+                <div class="more-info">
+                  <div class="team-name title">{{team.teamname}}</div>
+                  <div class="team-date">
+                    <span class="title">{{'teams.creationdate' | translate}}</span>
+                    <br>
+                    <span class="text">{{team.createDate}}</span>
+                  </div>
+                  <div class="team-coords">
+                    <span class="title">{{'teams.location' | translate}}</span>
+                    <br>
+                    <span class="text">{{team.location}}</span>
+                  </div>
+                  <div class="team-stats">
+                    <div>
+                      <div class="title">{{'teams.leader' | translate}}</div>
+                      <span class="text">{{team.userLeader}}</span>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

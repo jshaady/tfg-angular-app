@@ -1,0 +1,151 @@
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-5">
+                    <mat-card>
+                        <mat-card-header class="mb-4">
+                            <div mat-card-avatar class="text-center pt-2"><i
+                                    class="fas fa-street-view fa-3x"></i></div>
+                            <mat-card-title class="ml-2">{{'header.meets' | translate}}</mat-card-title>
+                            <!-- <mat-card-subtitle class="ml-2"></mat-card-subtitle> -->
+                        </mat-card-header>
+                        <mat-card-content>
+                           
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/meet']"><i class="fas fa-search fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/events']" (click)="setActiveEvent('meets')"><i class="far fa-eye fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/meet/create']"><i class="fas fa-plus fa-2x"></i></button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-5">
+                    <mat-card>
+                        <mat-card-header class="mb-4">
+                            <div mat-card-avatar class="text-center pt-2"><i
+                                    class="fas fa-list-ol fa-3x"></i>
+                            </div>
+                            <mat-card-title class="ml-2">{{'header.leagues' | translate}}</mat-card-title>
+                            <!-- <mat-card-subtitle class="ml-2"></mat-card-subtitle> -->
+                        </mat-card-header>
+                        <mat-card-content>
+                            
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/league']"><i class="fas fa-search fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/events']" (click)="setActiveEvent('leagues')"><i class="far fa-eye fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/league/create']"><i class="fas fa-plus fa-2x"></i></button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-5">
+                    <mat-card>
+                        <mat-card-header class="mb-4">
+                            <div mat-card-avatar class="text-center pt-2"><i
+                                    class="fas fa-trophy fa-3x"></i></div>
+                            <mat-card-title class="ml-2">{{'header.tournaments' | translate}}</mat-card-title>
+                            <!-- <mat-card-subtitle class="ml-2"></mat-card-subtitle> -->
+                        </mat-card-header>
+                        <mat-card-content>
+                            
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/tournament']"><i class="fas fa-search fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/events']" (click)="setActiveEvent('tournaments')"><i class="far fa-eye fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/tournament/create']"><i class="fas fa-plus fa-2x"></i></button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-5">
+                    <mat-card>
+                        <mat-card-header class="mb-4">
+                            <div mat-card-avatar class="text-center pt-2"><i class="fas fa-users fa-3x"></i></div>
+                            <mat-card-title class="ml-2">{{'header.myteams' | translate}}</mat-card-title>
+                            <!-- <mat-card-subtitle class="ml-2"></mat-card-subtitle> -->
+                        </mat-card-header>
+                        <mat-card-content>
+                           
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-12 col-lg-6 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/teams']"><i class="far fa-eye fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-6 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/teams/create']"><i class="fas fa-plus fa-2x"></i></button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-5">
+                    <mat-card>
+                        <mat-card-header class="mb-4">
+                            <div mat-card-avatar class="text-center pt-2"><i class="fas fa-user fa-3x"></i></div>
+                            <mat-card-title class="ml-2">{{'header.profile' | translate}}</mat-card-title>
+                            <!-- <mat-card-subtitle class="ml-2"></mat-card-subtitle> -->
+                        </mat-card-header>
+                        <mat-card-content>
+                            
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <div class="row">
+                                <div class="col-12 col-lg-6 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/user/', getLoggedUser().username]" *ngIf="getLoggedUser()"><i class="far fa-eye fa-2x"></i></button>
+                                </div>
+                                <div class="col-12 col-lg-6 mt-3 mt-lg-0">
+                                    <button mat-raised-button class="button-black form-control" [routerLink]="['/profile']"><i class="far fa-edit fa-2x"></i></button>
+                                </div>
+                            </div>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <mat-card class="example-card">
+                        <mat-card-header class="mb-4 text-center">
+                            <div mat-card-avatar class="text-center pt-2"><i class="fas fa-newspaper fa-3x"></i></div>
+                            <mat-card-title class="ml-2">{{'header.news' | translate}}</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <app-news></app-news>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

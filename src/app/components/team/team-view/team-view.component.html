@@ -1,0 +1,55 @@
+<div class="container" *ngIf="getTeam()">
+  <div class="row">
+    <div class="col-12 header-div">
+      <div class="row d-flex">
+        <div class="img-wrapper col-12 col-lg-4">
+          <img class="profile-img" [src]="getTeamAvatar()" alt="{{'teams.teamimg' | translate}}">
+        </div>
+        <div class="col-12 col-lg-8 justify-content-center align-self-center">
+          <div class="row">
+            <div class="name-wrapper col-12">
+              <h1>{{getTeam().teamname}}</h1>
+            </div>
+            <div class="col-12 date-wrapper">
+              <span>{{getTeam().location}}</span>
+            </div>
+            <div class="col-12 date-wrapper">
+              <span>{{'teams.createddate' | translate:getTeamDatai18n()}}</span>
+            </div>
+
+            <div class="col-12" *ngIf="isLeader()">
+              <button class="btn button-edit form-control" (click)="editTeam()"><i
+                  class="far fa-edit"></i><span>{{'teams.edit' | translate}}</span></button>
+            </div>
+
+            <div class="col-12" *ngIf="canJoin() && notFull()">
+              <button class="btn button-join form-control"
+                (click)="joinTeam()">{{'modals.championship.join' | translate}}</button>
+            </div>
+
+            <div class="col-12" *ngIf="alreadyJoined()">
+              <button class="btn button-leave form-control" (click)="leftTeam()">Dejar equipo</button>
+            </div>
+
+            <div class="col-12" *ngIf="isLeader()">
+              <button class="btn button-search form-control"
+                (click)="searchCode()">{{'teams.teamcode' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <nav mat-tab-nav-bar class="mt-4">
+            <a mat-tab-link *ngFor="let link of getNavLinks()" [routerLink]="link.path"
+              (click)="activeLink = link.label" [active]="activeLink == link.label">
+              <span>{{'teams.' + link.label | translate}}</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

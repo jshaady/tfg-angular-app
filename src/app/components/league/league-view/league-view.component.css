@@ -1,0 +1,103 @@
+.header-tournament {
+    height: 400px;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-tournament > .img-container, .img-container > img {
+    height: 100%;
+    width: 100%;
+    padding: 0 !important;
+}
+
+.header-tournament > .championship-name {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.championship-name > h1 {
+    color:white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+    font-family: 'Righteous', Verdana, Geneva, Tahoma, sans-serif;
+    padding-top: 100px;
+    font-variant-caps: all-small-caps;
+}
+
+.championship-options{
+    background-color: #000;
+    color: white;
+    padding: 10px 0;
+    margin:0;
+}
+
+.championship-options a {
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-variant-caps: all-petite-caps;
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+.buttons-wrapper {
+    position: absolute;
+    float: right;
+    bottom: 10px;
+    z-index: 3;
+}
+
+.buttons-wrapper > button {
+    margin: 5px;
+    padding: 0 10px;
+    font-family: 'Roboto', sans-serif;
+    font-variant-caps: all-petite-caps;
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+.btn-join, .btn-generate {
+    border-radius: 25px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+}
+
+.btn-generate:hover {
+    background: rgba(187, 87, 6, 0.3);
+    border: 1px solid #fff;
+}
+
+.btn-join:hover {
+    background: rgba(6, 187, 6, 0.3);
+    border: 1px solid #fff;
+}
+
+a{
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    .img-container > img {
+        width: auto;
+        max-width: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .championship-options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+}
+

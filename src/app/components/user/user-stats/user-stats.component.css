@@ -1,0 +1,22 @@
+.row{margin: auto;}
+
+.mat-card-click { cursor: pointer; }
+
+.static-text{
+    font-weight: bold;
+}
+
+.stats-icon { padding-top: 0.25rem; float: right; }
+
+.slider {
+    animation: Slide_Up 1.4s ease;
+}
+
+@keyframes Slide_Up{
+    0% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

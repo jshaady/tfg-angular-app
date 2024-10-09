@@ -1,0 +1,29 @@
+<div class="row">
+  <mat-card class="sports">
+    <mat-card-content>
+      <div class="col-2 col-lg-12 pt-2 mb-4 sport-option ">
+        <a (click)="changeSport('all')"><span>{{'championship.all' | translate}}</span></a>
+      </div>
+      <div class="col-2 col-lg-12 mb-4 sport-option">
+        <a (click)="changeSport('football')"><img class="sport-icon img-fluid"
+            src="../../../assets/icons/football_black.png" alt="football"></a>
+      </div>
+      <div class="col-2 col-lg-12 mb-4 sport-option">
+        <a (click)="changeSport('basketball')"><img class="sport-icon img-fluid"
+            src="../../../assets/icons/basketball_black.png" alt="basketball"></a>
+      </div>
+      <div class="col-2 col-lg-12 mb-4 sport-option">
+        <a (click)="changeSport('tennis')"><img class="sport-icon img-fluid"
+            src="../../../assets/icons/tenis1_black.png" alt="tenis"></a>
+      </div>
+      <div class="col-2 col-lg-12 mb-4 sport-option">
+        <a (click)="changeSport('csgo')"><img class="sport-icon-letter img-fluid"
+            src="../../../assets/icons/csgo_black.png" alt="csgo"></a>
+      </div>
+      <div class="col-2 col-lg-12 sport-option">
+        <a (click)="changeSport('lol')"><img class="sport-icon img-fluid" src="../../../assets/icons/lol_black.png"
+            alt="lol"></a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

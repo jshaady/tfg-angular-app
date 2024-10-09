@@ -1,0 +1,120 @@
+.row{ margin: auto !important; }
+
+.member-wrapper, .about-wrapper{
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-variant-caps: all-petite-caps;
+    font-weight: lighter;
+    font-size: 20px;
+}
+
+.member-header, .about-header-div{
+    font-weight: bold;
+    text-align: center;
+}
+
+.all-members {
+    overflow-y: scroll;
+    max-height: 490px;
+}
+
+/* scrollbar */
+.all-members::-webkit-scrollbar-track {
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+.all-members::-webkit-scrollbar {
+	width: 5px;
+	background-color: #F5F5F5;
+}
+
+.all-members::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-color: rgb(255, 150, 64);
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+.member-img{
+    height: 60px;
+    width: 60px;
+    border-radius: 140px;
+    margin-right: 1.4rem;
+}
+
+.options{
+    margin-top: 1.2rem;
+}
+
+.options > a {
+    margin-right: 1.2rem;
+}
+
+.member-header-div{
+    padding-bottom: 1.2rem;
+}
+
+.member{
+    border-bottom: 1px solid black;
+    padding-bottom: .6rem;
+    padding-top: .6rem;
+    padding: auto 10px;
+    cursor: pointer;
+}
+
+/* Efecto de transicion de divs de .member */
+.member {
+    position: relative;
+    -webkit-transition: color 500ms;
+    transition: color 500ms;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.member:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: -1;
+    background: rgb(255, 150, 64);;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    -webkit-transition: 300ms ease-out;
+    transition: 300ms ease-out;
+}
+
+member:hover > .fa-crown {
+    color: black;
+}
+
+.fa-crown{
+    color: black;
+}
+
+.member:hover:before {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+}
+
+.about-header-div{
+    padding-bottom: 2rem;
+}
+
+.about-header-div {
+    border-bottom: 1px solid #000;
+    padding: 0 0 5px 0 !important;
+    margin-bottom: 10px;
+}

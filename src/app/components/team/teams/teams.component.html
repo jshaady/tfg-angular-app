@@ -1,0 +1,98 @@
+<div class="container mt-4 mb-4" *ngIf="getTeams()">
+  <div class="row">
+    <div class="col-12">
+      <div class="row text-center buttons-wrapper">
+        <div class="col-12 col-md-6 col-lg-3 mb-3">
+          <button class="button-create" mat-raised-button [routerLink]="['create']">{{'teams.createteam' | translate}}</button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-5 mb-3">
+          <button class="button-create" mat-raised-button
+            (click)="open(searchTeam)">{{'teams.searchteamcode' | translate}}</button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+          <button class="button-create" mat-raised-button [routerLink]="['search']">{{'teams.searchteam' | translate}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="row teams-wrapper justify-content-center">
+        <div class="mt-5 text-center" *ngIf="!getTeams().length">
+          <h2>{{'teams.noteam' | translate}}</h2>
+        </div>
+        <div *ngIf="getTeams().length" class="col-12">
+          <div [routerLink]="['/team', team.teamname]" *ngFor="let team of getTeams()">
+            <mat-card class="team-card">
+              <mat-card-content>
+                <div class="team-profile">
+                  <div class="team-img">
+                    <img [src]="getTeamAvatar(team.imageBase64, team.imageType)" class="team-img"
+                      alt="{{'teams.teamimg' | translate}}">
+                  </div>
+                </div>
+                <div class="gradient-style-div"></div>
+                <div class="more-info">
+                  <div class="team-name title ">{{team.teamname}}<i *ngIf="isLeader(team.userLeader)"
+                      class="ml-2 fas fa-crown icon-crown"></i><i *ngIf="team.isPrivate === 1" class="ml-2 fas fa-lock"></i></div>
+                  <div class="team-date">
+                    <span class="title">{{'teams.creationdate' | translate}}</span>
+                    <br>
+                    <span class="text">{{team.createDate}}</span>
+                  </div>
+                  <div class="team-coords">
+                    <span class="title">{{'teams.location' | translate}}</span>
+                    <br>
+                    <span class="text">{{team.location}}</span>
+                  </div>
+                  <div class="team-stats">
+                    <div>
+                      <div class="title">{{'teams.leader' | translate}}</div>
+                      <span class="text">{{team.userLeader}}</span>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #searchTeam let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{'teams.search' | translate}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formModel" autocomplete="off">
+        <div>
+          <mat-form-field class="mat-form-field">
+            <input matInput placeholder="{{'teams.code' | translate}}" formControlName="uuid">
+          </mat-form-field>
+        </div>
+        <button type="button" (click)="searchTeamByUuid()" class="button-ng-modal mt-2 form-control" mat-raised-button
+          [disabled]="formModel.invalid || isSaving()">
+          {{'meets.search' | translate}}
+        </button>
+        <div *ngIf="getUuidTeamError()" class="errors text-center mt-3">
+          <span class="text-danger">{{'responsemessages.' + getUuidTeamError() | translate}}</span>
+        </div>
+      </form>
+    </div>
+    <div class="modal-show-team">
+      <div *ngIf="getUuidTeam()" class="row uuid-team-wrapper">
+        <div class="col-lg-4 col-md-2 text-center">
+          <span>{{getUuidTeam().teamname}}</span>
+        </div>
+        <div class="col-lg-4 col-md-2 text-center">
+          <span>{{getUuidTeam().location}}</span>
+        </div>
+        <div class="col-lg-4 col-md-2 text-center">
+          <button (click)="joinTeam(getUuidTeam())" class="button-ng-modal form-control"
+            [disabled]="formModel.invalid || isSaving()" mat-raised-button>{{'teams.jointeam' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

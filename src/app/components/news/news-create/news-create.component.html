@@ -1,0 +1,90 @@
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-4 offset-lg-4 pb-3 pt-3">
+            <form [formGroup]="formModel" autocomplete="off" (submit)="onSubmit()">
+                <mat-card class="text-center">
+                    <mat-card-content>
+                        <h2>{{'news.publishnews' | translate}}</h2>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput #newsTitle placeholder="{{'news.newstitle' | translate}}"
+                                    formControlName="Title" [errorStateMatcher]="matcher">
+                                <mat-error
+                                    *ngIf="formModel.get('Title').touched && formModel.get('Title').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Title').touched && formModel.get('Title').errors?.minlength">
+                                    {{'errors.The title name cannot be empty' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Title').touched && formModel.get('Title').errors?.maxlength">
+                                    {{'errors.Title cant contain more than 60 characterers' | translate}}
+                                </mat-error>
+                                <mat-hint align="end">{{newsTitle.value.length}} / 60</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <textarea matInput #message placeholder="{{'news.message' | translate}}"
+                                    formControlName="Message" rows="3" [errorStateMatcher]="matcher"></textarea>
+                                <mat-error
+                                    *ngIf="formModel.get('Message').touched && formModel.get('Message').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Message').touched && formModel.get('Message').errors?.minlength">
+                                    {{'errors.The message cannot be empty' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Message').touched && formModel.get('Message').errors?.maxlength">
+                                    {{'errors.Message cannot contain more than 65535 characterers' | translate}}
+                                </mat-error>
+                                <mat-hint align="end">{{message.value.length}} / 65535</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                                    autocapitalize="off" spellcheck="false" formControlName="Location"
+                                    ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                                    (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher">
+                                <mat-icon matSuffix><i class="fas fa-map-marker-alt"></i></mat-icon>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.minlength">
+                                    {{'errors.The location cannot be empty' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.maxlength">
+                                    {{'errors.Location cannot contain more than 255 characterers' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="button-submit" mat-raised-button
+                                (click)="fileInput.click()">{{'teams.chooseimage' | translate}}</button>
+                            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput disabled value="{{fileName}}">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <div class="text-danger" *ngFor="let error of getErrors()" [translate]="'errors.' + error">
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="button-submit" mat-raised-button
+                        [disabled]="formModel.invalid || isSaving()">
+                        {{'news.publishnews' | translate}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

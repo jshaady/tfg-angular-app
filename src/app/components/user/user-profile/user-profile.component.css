@@ -1,0 +1,71 @@
+input[type=date]::-webkit-outer-spin-button,
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.row{
+    margin: auto;
+}
+
+input[type=date] {
+    -moz-appearance:textfield;
+}
+
+.image{
+    display: inline;
+}
+
+.name{
+    margin-left: 3rem;
+    display: inline;
+}
+
+.name > span{
+    font-size: 3rem;
+}
+
+.profile-img{
+    height: 180px;
+    width: 180px;
+    border-radius: 140px;
+    border: 3px solid rgb(255, 150, 64);
+}
+
+form{
+    width: 100%;
+}
+
+input::placeholder{
+    color:rgba(0, 0, 0, 0.4);
+}
+
+.dato{
+    margin-bottom: 1rem;
+}
+
+.dato > label{
+    color: black;
+}
+
+.btn > label{
+    color: white;
+}
+
+.submit-div{
+    text-align: center;
+}
+
+.form-container {
+    background-color: #FFF;
+    border-radius: 2px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.button {
+    background-color: rgb(255, 150, 64);
+    font-weight: bold;
+}

@@ -1,0 +1,68 @@
+.row{ margin: auto; }
+
+#map {
+    height: 300px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.member-img {
+    height: 60px;
+    width: 60px;
+    border-radius: 140px;
+    margin-right: 1.4rem;
+}
+
+.all-members {
+    overflow-y: auto;
+    max-height: 348px;
+}
+  
+/* scrollbar */
+.all-members::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+  
+.all-members::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+  
+.all-members::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(255, 150, 64);
+}
+
+button {
+    width: 100%;
+    border: 2px solid;
+    background: transparent;
+    margin: 5px;
+
+    font-variant-caps: all-petite-caps;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+
+    transition: background-color 0.5s;
+}
+
+button:hover {
+    color: #fff;
+}
+
+.button-join {
+    border-color: rgb(3, 92, 0);
+}
+
+.button-join:hover {
+    background-color: rgb(3, 92, 0);
+}
+
+.button-leave {
+    border-color: rgb(110, 0, 0);
+}
+
+.button-leave:hover {
+    background-color: rgb(110, 0, 0);
+}

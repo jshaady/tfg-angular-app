@@ -1,0 +1,139 @@
+@font-face {
+    font-family: simplifica;
+    src: url(../../../assets/fonts/SIMPLIFICA.ttf) format("opentype");
+  }
+
+.section-init{
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    background-image: url('../../../assets/img/home_wallpaperscraft.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-color: #000;
+    box-shadow: 0px 13px 5px -5px rgba(0,0,0,0.75);
+}
+
+.header-info {
+    width: 40%;
+    height: 35%;
+    position: absolute;
+    top: 1%;
+    right: 0%;
+    z-index: 2;
+    text-align: left;
+    overflow: hidden;
+}
+
+.container-fluid {
+    padding: 0px !important;
+}
+
+.header-info .boton {
+    background: transparent;
+    color: #FFF;
+    border-radius: 50px;
+    border: 1px solid #BB5806;
+    font-weight: bold;
+    padding: 1.5% 25%;
+    display: block;
+    margin: auto;
+}
+
+.header-info .boton:hover {
+    background: rgba(187, 87, 6, 0.3);
+    color: #fff;
+    border-color: #fff;
+}
+
+.section-init::after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 60vw solid transparent;
+    border-top: 100vh solid rgba(0, 0, 0, 0.4);
+}
+
+.section-info{
+    height: 100%;
+}
+
+.row{
+    margin: auto;
+}
+
+ h3 {
+    font-family: 'simplifica', sans-serif;
+    letter-spacing: 0.3em;
+    color:#FFF;
+}
+
+h1,h2 {
+    font-family: 'simplifica', sans-serif;
+    letter-spacing: 0.3em;
+    font-weight: bold;
+    color:#FFF;
+}
+
+.section-info{
+    background-color: rgba(187, 87, 6, 0.45);
+    color: white;
+}
+
+.frame-sep {
+    background: #FFF;
+    box-shadow: 0px 13px 0px 0px rgba(0,0,0,0.75);
+    height: 5%;
+    width: 100%;
+}
+
+@media only screen and (max-width: 1025px) {
+    .section-init{
+        background-size: cover;
+        background-color: #000;
+    }
+    
+    .header-info {
+        width: 100%;
+        height: 30%;
+        position: relative;
+        top: 5%;
+        z-index: 2;
+        background: rgba(0, 0, 0, 0.4);
+        margin: 0;
+        padding: 10px;
+    }
+
+    .header-info h1 {
+        font-weight: 300;
+        white-space: nowrap;
+        will-change: transform;
+        overflow: hidden;
+        text-transform: uppercase;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        -webkit-animation: marquee 22s linear infinite;
+        animation: marquee 22s linear infinite;
+    }
+
+    @keyframes marquee {
+        0% {
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }
+        
+        100% {
+            -webkit-transform: translate3d(-1200px,0,0);
+            transform: translate3d(-1200px,0,0);
+        }
+    }
+
+    .section-init::after {
+        display: none;
+    }
+}

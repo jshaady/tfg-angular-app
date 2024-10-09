@@ -1,0 +1,89 @@
+<div class="container mt-3 mb-3">
+  <div class="row pb-2 mr-2 no-matches text-center" *ngIf="!isTableVisible()">
+    <div class="col-12 text-center">
+      <h2>{{'championship.notmatches' | translate}}</h2>
+    </div>
+  </div>
+
+  <mat-form-field *ngIf="isTableVisible()">
+      <mat-label>{{'championship.team' | translate}}</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let team of getChampionship().teamsInChampionship" [value]="team.teamname" (click)="changeTeamname(team.teamname)">
+          <span class="teamname">{{team.teamname}}</span>
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <table mat-table [dataSource]="getMatchesDataSource()" class="mat-elevation-z8" *ngIf="isTableVisible()">
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.date' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.date' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.matchDate}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team1">
+      <th mat-header-cell *matHeaderCellDef> {{'teams.localteam' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'teams.localteam' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.team1.teamname}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.result' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.result' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.matchResult1}} - {{element.matchResult2}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team2">
+      <th mat-header-cell *matHeaderCellDef> {{'teams.visitingteam' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'teams.visitingteam' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.team2.teamname}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef> {{'header.options' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="icon-wrapper" *ngIf="loggedIn() && canViewDates(element)"
+          (click)="setDate(element.team1, element.team2)"><i class="far fa-calendar-alt fa-2x"></i></div>
+        <div class="icon-wrapper" *ngIf="loggedIn() && canSetResult(element)"
+          (click)="setResult(element.team1, element.team2)"><i class="far fa-edit fa-2x"></i></div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getMatchesDisplayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getMatchesDisplayedColumns();"></tr>
+  </table>
+
+  <mat-paginator #paginator *ngIf="isTableVisible()" 
+    [length]="getMatchPageOptions().length"
+    [pageIndex]="getMatchPageOptions().pageIndex"
+    [pageSize]="getMatchPageOptions().pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]" 
+    (page)="changePage($event)"
+    class="mt-2 mb-3">
+  </mat-paginator>
+
+</div>

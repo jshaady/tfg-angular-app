@@ -1,0 +1,61 @@
+.row{ margin-right: auto; }
+
+.users-chat-wrapper {
+  padding: 1.1rem;
+  cursor: pointer;
+  background-color: #1F2127;
+  margin-bottom: .7rem;
+  color: white;
+}
+
+.user-selected {
+  background-color: rgb(255, 150, 64) !important;
+  transition: 0.75s;
+}
+
+.all-members {
+  overflow-y: scroll;
+  max-height: 700px;
+}
+
+/* scrollbar */
+.all-members::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.all-members::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F5F5F5;
+}
+
+.all-members::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(255, 150, 64);
+}
+
+.user {
+  margin-bottom: 2em;
+  margin-top: 2em;
+}
+
+.profile-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 140px;
+}
+
+.image {
+  display: inline;
+}
+
+.user-list-search {
+  display: inline-flex;
+}
+
+@media only screen and (max-width: 1000px) {
+  .button-submit {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

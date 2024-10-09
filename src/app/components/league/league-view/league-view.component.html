@@ -1,0 +1,30 @@
+<div class="row header-tournament" *ngIf="getChampionship()">
+  <div class="col-12 img-container">
+    <img class="tournament-img" [src]="getChampionshipImage()" alt="{{'championship.tournamentimg' | translate}}">
+  </div>
+  <div class="col-12 championship-name">
+    <h1>{{getChampionship().championshipName}}</h1>
+  </div>
+  <div class="buttons-wrapper">
+    <button class="btn btn-success btn-generate" (click)="generateMatches()" *ngIf="canGenerate()">
+      {{'championship.generatematches' | translate}}
+    </button>
+    <button class="btn btn-success btn-join" (click)="openJoin()" *ngIf="canJoin()">
+      {{'championship.joinchampionship' | translate}}
+    </button>
+    <button class="btn btn-danger btn-join" (click)="leave()" *ngIf="canLeave()">
+      {{'championship.leavechampionship' | translate}}
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 text-center championship-options">
+    <nav mat-tab-nav-bar>
+      <a mat-tab-link *ngFor="let link of getNavLinksChampionship()" [routerLink]="link.path"
+        (click)="activeLink = link.label" [active]="activeLink == link.label">
+        <span>{{'championship.'+ link.label | translate}}</span>
+      </a>
+    </nav>
+  </div>
+</div>
+<router-outlet></router-outlet>

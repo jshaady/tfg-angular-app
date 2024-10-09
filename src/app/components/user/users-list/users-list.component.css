@@ -1,0 +1,17 @@
+.delete-button{
+    font-weight: bold;
+    background-color: #dc3545;
+}
+  
+mat-form-field label{
+    font-size: 0.9rem;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+button {
+    margin-right: .5rem !important;
+}

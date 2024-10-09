@@ -1,0 +1,72 @@
+<div class="container mt-4 mb-4">
+  <div class="row">
+    <div class="col-lg-12 text-center meets-button-div mb-4" *ngIf="loggedIn()">
+      <button class="button" [routerLink]="['/meet/create']"
+        mat-raised-button>{{'meets.createmeet' | translate}}</button>
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <div class="row form-wrapper pb-3 mb-2">
+          <div class="col-12 col-lg-6">
+            <img src="../../../../assets/img/worldmeets.svg" alt="worldmeet-pixabay" />
+          </div>
+          <div class="col-12 col-lg-6 text-center meet-title">
+            <h5>{{'meets.title' | translate}}</h5>
+          </div>
+          <div class="col-12 row">
+            <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+              <form [formGroup]="formModel">
+                <mat-form-field class="mat-form-field">
+                  <input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                    autocapitalize="off" spellcheck="false" name="Location" formControlName="Location"
+                    ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                    (focusout)="focusOut($event.target.value)" />
+                </mat-form-field>
+              </form>
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2"><button class="button-submit form-control"
+                mat-raised-button (click)="onSubmit()">{{'meets.search'| translate}}</button></div>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="mt-3 col-12" *ngIf="isTableVisible()">
+      <table class="mat-elevation-z8" mat-table [dataSource]="getDataSource()">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> {{'meets.name' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> {{'meets.date' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sport">
+          <th mat-header-cell *matHeaderCellDef> {{'meets.sport' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.sport}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="participants">
+          <th mat-header-cell *matHeaderCellDef> {{'meets.participants' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.participants}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef> {{'meets.location' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr class="mat-row" mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getRecord(row)"></tr>
+      </table>
+
+      <mat-paginator *ngIf="isTableVisible()" [length]="getMeetsPageOptions().length"
+        [pageSize]="getMeetsPageOptions().pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="changePage($event)"
+        class="mt-2 mb-3"></mat-paginator>
+    </div>
+  </div>
+</div>

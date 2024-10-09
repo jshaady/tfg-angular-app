@@ -1,0 +1,41 @@
+.row { margin: auto !important; }
+
+mat-form-field label{
+  font-size: 1.5rem;
+}
+
+.col-lg-offset-right-1 {
+  margin-right: 8.33333333%;
+}
+
+.header-span {
+  font-size: 1.3rem;
+}
+
+.fa-play{
+  cursor: pointer;
+}
+
+.header-div {
+  margin-top: 2rem;
+}
+
+.result {
+  font-weight: bold;
+}
+
+.static-text{
+  font-weight: bold;
+}
+
+.win{
+  color: green;
+}
+
+.lose{
+  color: red;
+}
+
+.draw{
+  color: orange;
+}

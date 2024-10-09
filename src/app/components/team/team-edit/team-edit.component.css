@@ -1,0 +1,20 @@
+
+.image{
+    display: inline;
+}
+
+.name{
+    margin-left: 3rem;
+    display: inline;
+}
+
+
+.profile-img{
+    height: 180px;
+    width: 180px;
+    border-radius: 140px;
+}
+
+.submit-div{
+    text-align: center;
+}

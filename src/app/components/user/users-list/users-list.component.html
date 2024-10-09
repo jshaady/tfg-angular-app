@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <mat-form-field>
+    <input matInput (keyup)="searchByFilter($event.target.value)" placeholder="{{'user.filter' | translate}}"
+      value="{{getUserSearchNameOrEmail()}}">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="getDataSource()" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> {{'user.username' | translate}} </th>
+      <td mat-cell *matCellDef="let element" (click)="goToUserProfile(element.username)"> 
+        <div class="mobile-label">
+          <span>{{'user.username' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.username}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> {{'user.email' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'user.email' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.email}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthdate">
+      <th mat-header-cell *matHeaderCellDef> {{'user.birthday' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'user.birthday' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.birthdate}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> {{'user.phone' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'user.phone' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.phone}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> {{'user.delete' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="buttons-wrapper">
+          <button *ngIf="element.rol === 0 && !checkDelete(element.username)" mat-icon-button color="warn"
+            (click)="selectForDelete(element.username)" [disabled]="getIsSaving()">
+            <i class="far fa-trash-alt"></i>
+          </button>
+          <button class="delete-button" *ngIf="checkDelete(element.username)" (click)="deleteUser(element.username)"
+            mat-raised-button [disabled]="getIsSaving()">
+            {{'user.confirmdelete' | translate}}
+          </button>
+          <button *ngIf="checkDelete(element.username)" (click)="cancelDelete()" mat-raised-button>
+            {{'user.canceldelete' | translate}}
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator *ngIf="getUserListPageOptions().length > 0"
+    [length]="getUserListPageOptions().length"
+    [pageIndex]="getUserListPageOptions().pageIndex"
+    [pageSize]="getUserListPageOptions().pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]" 
+    (page)="changePage($event)" 
+    class="mt-2 mb-3">
+  </mat-paginator>
+</div>

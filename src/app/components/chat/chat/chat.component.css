@@ -1,0 +1,79 @@
+.row {
+  margin: auto;
+}
+
+.chat{
+  margin: 0px;
+  height: 575px;
+  overflow: auto;
+}
+
+/* Chat scroll bar*/
+.chat::-webkit-scrollbar-track {
+  padding: 2px 0;
+  background-color: rgba(32, 34, 40, 0.1);
+  border-radius: 10px;
+  height: 99%;
+}
+  
+.chat::-webkit-scrollbar {
+  width: 6px;
+  height: 99%;
+}
+  
+.chat::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(255, 150, 64);
+}
+
+.username-info {
+  color: #000;
+  padding: 1rem 3rem;
+  width: 100%;
+  font-size: 2rem;
+  background-color: rgba(255, 150, 64, .7);
+}
+
+mat-card-header {
+  color: #000;
+  padding: 1rem 3rem;
+  width: 100%;
+  font-size: 2rem;
+  border-bottom: 1px solid rgba(31, 33, 39, 0.2);
+}
+
+.con-users {
+  padding-left: 15px;
+  overflow: auto;
+}
+  
+.user-name{
+  color: rgb(255, 150, 64);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.message-wrapper {
+  color: #000;
+}
+    
+/* Style time text */
+.time-right {
+  margin-left: 0.5em;
+  color: #aaa;
+  font-size: 0.75em;
+}
+
+.user-img {
+  height: 70px;
+  width: 70px;
+  border-radius: 140px;
+}
+
+.chat-text{
+  display: block;
+}
+
+.button {
+  font-size: 16px !important;
+}

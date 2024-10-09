@@ -1,0 +1,48 @@
+<div class="container" *ngIf="getUser()">
+  <div class="row">
+    <div class="col-12 header-div">
+      <div class="row d-flex">
+        <div class="col-12 col-lg-4 img-wrapper">
+          <img class="profile-img" [src]="getProfileAvatar()" alt="{{'teams.teamimg' | translate}}">
+        </div>
+        <div class="col-12 col-lg-8 justify-content-center align-self-center">
+          <div class="row">
+            <div class="col-12 name-wrapper">
+              <h1>{{getUser().username}}</h1>
+            </div>
+            <div class="col-12 date-wrapper" *ngIf="getUser().name && getUser().surname">
+              <span>{{getUser().name + ' ' + getUser().surname}}</span>
+            </div>
+            <div class="col-12 date-wrapper">
+              <span>{{getUser().location}}</span>
+            </div>
+            <div class="col-12 date-wrapper">
+              <span><span class="title">{{'user.birthday' | translate}}:</span> {{getUser().birthdate}}</span>
+            </div>
+
+            <div class="col-12" *ngIf="loggedIn() && isSameUser()">
+              <button class="btn button-edit form-control" [routerLink] = "['/profile']"><i
+                  class="far fa-edit"></i><span>{{'header.editprofile' | translate}}</span></button>
+            </div>
+
+            <div class="col-12" *ngIf="loggedIn() && !isSameUser()">
+              <button class="btn button-search form-control" (click)="sendMessage()">{{'chat.sendmessage' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <nav mat-tab-nav-bar class="mt-4">
+            <a mat-tab-link *ngFor="let link of getNavLinks()" [routerLink]="link.path"
+              (click)="activeLink = link.label" [active]="activeLink == link.label">
+              <span>{{'teams.' + link.label | translate}}</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

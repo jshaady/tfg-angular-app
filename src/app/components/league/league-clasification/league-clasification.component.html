@@ -1,0 +1,72 @@
+<div class="container mt-3 mb-3" *ngIf="getClasification().length == 0">
+  <div class="col-12 text-center">
+    <h2>{{'championship.notteams' | translate}}</h2>
+  </div>
+</div>
+<div class="container mt-3 mb-3" *ngIf="getClasification().length > 0">
+  <table mat-table [dataSource]="getClasification()" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.team' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.team' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.teamName}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.points' | translate}} </th>
+      <td mat-cell *matCellDef="let element"> 
+        <div class="mobile-label">
+          <span>{{'championship.points' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.points}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="won">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.won' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.won' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.wins}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="drawn">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.drawn' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.drawn' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.draws}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lost">
+      <th mat-header-cell *matHeaderCellDef> {{'championship.lost' | translate}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="mobile-label">
+          <span>{{'championship.lost' | translate}}</span>
+        </div>
+        <div class="mobile-data">
+          <span>{{element.looses}}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getClasificationDisplayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getClasificationDisplayedColumns();"></tr>
+  </table>
+</div>

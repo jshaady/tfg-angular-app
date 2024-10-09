@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <section class="section-init">
+        <div class="row">
+            <div class="col-12 mt-4 header-info">
+                <h1>{{'home.title' | translate}}</h1>
+                <button class="btn boton" (click)="openSignUp()"
+                    *ngIf="!loggedIn()">{{'header.signup' | translate}}</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-info pt-5">
+        <div class="row leages-tournaments">
+            <div class="col-12 text-center div-header-create">
+                <h2>{{'home.compete' | translate}}</h2>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-5 text-center">
+                <h3 class="info">{{'home.tournamentstitle' | translate}}</h3>
+                <img src="../../../assets/img/bracket-2-white-b.png">
+            </div>
+            <div class="col-lg-5 text-center">
+                <h3 class="info">{{'home.leaguestitle' | translate}}</h3>
+                <img src="../../../assets/img/league-white-2.png">
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+    </section>
+
+    <section class="section-info">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>{{'home.participate' | translate}}</h2>
+            </div>
+            <div class="col-12 text-center">
+                <img src="../../../assets/img/world.svg" width="650" height="300">
+            </div>
+        </div>
+    </section>
+</div>

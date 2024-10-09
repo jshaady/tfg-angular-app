@@ -1,0 +1,101 @@
+.row{ margin: auto; }
+
+span{
+    font-size:15px;
+}
+
+.title, i, .text {
+    color: #FFF;
+}
+
+.filter-value-div {
+    display: inline-flex;
+}
+
+.button{
+    background-color: rgb(255, 150, 64);
+    font-weight: bold;
+    color: #000;
+    border-radius: 50px;
+    padding: 0.40em 4em;
+    font-size: 18px;
+}
+
+.button:hover {
+    background: #000;
+    color: white;
+}
+
+mat-card {
+    height: 525px;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #1F2127;
+    padding:60px 10px;
+    margin:30px 0px;
+    -webkit-box-shadow: 6px 6px 5px 1px rgba(0,0,0,0.6);
+    -moz-box-shadow: 6px 6px 5px 1px rgba(0,0,0,0.6);
+    box-shadow: 6px 6px 5px 1px rgba(0,0,0,0.6);
+}
+
+mat-card:hover {
+    -webkit-box-shadow: 6px 6px 5px 1px rgba(187, 87, 6, 0.6);
+    -moz-box-shadow: 6px 6px 5px 1px rgba(187, 87, 6, 0.6);
+    box-shadow: 6px 6px 5px 1px rgba(187, 87, 6, 0.6);
+    transform: scale(1.05);
+    transition: 0.75s;
+}
+
+.text{
+    margin:20px 0px;
+}
+
+.img-championship{
+    width: 100px;
+    height: 100px;
+}
+
+.img-championship-csgo{
+    width: 180px;
+    height: 100px;
+}
+
+.info-static{
+    color: #FFF;
+}
+
+.info-dynamic{
+    color: #FFF;
+    font-size: 1.1em;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.league-info-lg{display: none;}
+.league-info-md{display: flex;}
+.sport-bar{ padding-right: 0px; }
+.championship-cards{ padding-right: 0px;}
+
+
+@media (min-width: 992px) {
+    mat-card {
+        height: 430px;
+    }
+	.league-info-lg{display: flex;}
+    .league-info-md{display: none;}
+    .row{ margin-right: 0px !important; }
+
+}
+
+.pagination .page-item .page-link {
+    border-radius: 0 !important;
+  }
+  
+.pagination .page-link {
+    border-top-style: none !important;
+    border-bottom-style: none !important;
+    background-color: green !important;
+    color: black !important;
+  }

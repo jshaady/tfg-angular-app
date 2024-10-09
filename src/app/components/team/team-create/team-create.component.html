@@ -1,0 +1,110 @@
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-12 col-lg-4 offset-lg-4 pb-3 pt-3 mb-2">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="onSubmit()" enctype="multipart/form-data">
+        <mat-card class="text-center">
+          <mat-card-content>
+            <h2>{{'teams.createteam' | translate}}</h2>
+            <div class="mb-3">
+              <mat-form-field class="mat-form-field">
+                <input matInput #name placeholder="{{'teams.teamname' | translate}}" formControlName="TeamName"
+                  [errorStateMatcher]="matcher">
+                <mat-error *ngIf="formModel.get('TeamName').touched && formModel.get('TeamName').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+                <mat-error *ngIf="formModel.get('TeamName').touched && formModel.get('TeamName').errors?.minlegth">
+                  {{'errors.Team name cannot have less than 5 characters' | translate}}
+                </mat-error>
+                <mat-error *ngIf="formModel.get('TeamName').touched && formModel.get('TeamName').errors?.maxlength">
+                  {{'errors.Team name cannot have more than 20 characters' | translate}}
+                </mat-error>
+                <mat-hint align="end">{{name.value.length}} / 20</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <mat-form-field class="mat-form-field">
+                <input matInput #location placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                  autocapitalize="off" spellcheck="false" formControlName="Location" ngx-google-places-autocomplete
+                  [options]='options' #placesRef="ngx-places" (focusout)="focusOut($event.target.value)"
+                  [errorStateMatcher]="matcher">
+                <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+                <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.minlength">
+                  {{'errors.Location cannot be empty' | translate}}
+                </mat-error>
+                <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.maxlength">
+                  {{'errors.Location cannot have more than 255 characters' | translate}}
+                </mat-error>
+                <mat-hint align="end">{{location.value.length}} / 255</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <mat-form-field class="mat-form-field">
+                <textarea matInput #description rows="3" placeholder="{{'meets.description' | translate}}"
+                  formControlName="Description" [errorStateMatcher]="matcher"></textarea>
+                <mat-error
+                  *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+                <mat-error
+                  *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.minlength">
+                  {{'errors.Description cannot have less than 5 characters' | translate}}
+                </mat-error>
+                <mat-error
+                  *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.maxlength">
+                  {{'errors.Description cannot have more than 512 characters' | translate}}
+                </mat-error>
+                <mat-hint align="end">{{description.value.length}} / 512</mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <mat-form-field class="mat-form-field">
+                <input matInput type="number" placeholder="{{'teams.maxnumberplayers' | translate}}"
+                  formControlName="MaxNumberOfPlayers" [errorStateMatcher]="matcher">
+                <mat-error
+                  *ngIf="formModel.get('MaxNumberOfPlayers').touched && formModel.get('MaxNumberOfPlayers').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+                <mat-error
+                  *ngIf="formModel.get('MaxNumberOfPlayers').touched && formModel.get('MaxNumberOfPlayers').errors?.max">
+                  {{'errors.maxNumberPlayersMaxSize' | translate}}
+                </mat-error>
+                <mat-error
+                  *ngIf="formModel.get('MaxNumberOfPlayers').touched && formModel.get('MaxNumberOfPlayers').errors?.min">
+                  {{'errors.maxNumberPlayersMinSize' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <mat-form-field>
+                <mat-label>{{'teams.selectteamstate' | translate}}</mat-label>
+                <mat-select formControlName="isPrivate">
+                  <mat-option *ngFor="let data of isPrivate" [value]="data.id">
+                    {{'teams.' + data.label | translate}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formModel.get('isPrivate').touched && formModel.get('isPrivate').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="mb-3">
+              <div class="text-danger" *ngFor="let error of getErrors()">{{'errors.' + error | translate}}</div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <div class="col-12 submit-div mt-3">
+          <button type="submit" class="button-submit" [disabled]="formModel.invalid || isSaving()" mat-raised-button>
+            {{'teams.createteam' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

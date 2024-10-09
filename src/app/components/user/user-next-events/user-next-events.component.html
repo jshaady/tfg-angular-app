@@ -1,0 +1,214 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <h3>{{'header.events' | translate}}</h3>
+        </div>
+        <div class="col-12 mb-3" *ngFor="let event of getEvents()">
+            <mat-card class="mb-2 mat-card-click" (click)="seeEvents(event)">
+                {{'header.' + event.label | translate}}<i class="fas fa-chevron-down stats-icon"
+                    *ngIf="!event.open"></i><i class="fas fa-chevron-up stats-icon" *ngIf="event.open"></i>
+            </mat-card>
+
+            <div *ngIf="event.open && event.label === 'leagues' && getLeagueEvents()" class="row slider">
+                <div class="col-12 mb-3 text-justify" *ngIf="getLeagueEvents().length === 0">
+                    <h4>{{'user.noleaguesssoon' | translate}}</h4>
+                </div>
+                <div class="col-12 mb-3" *ngFor="let league of getLeagueEvents()">
+                    <mat-card class="mat-card mat-card-grey mat-card-click" (click)="show('league', league)">
+                        {{league.championshipname}} - {{league.teamname}}<i class="fas fa-chevron-down stats-icon-white"
+                            *ngIf="!active('league', league.id)"></i><i class="fas fa-chevron-up stats-icon-white"
+                            *ngIf="active('league', league.id)"></i>
+                    </mat-card>
+                    <div class="col-12 mt-3 mt-lg-0" *ngIf="active('league', league.id)">
+                        <table mat-table [dataSource]="getLeagueDataSource()" class="mat-elevation-z8 mt-3 mb-3">
+
+                            <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.date' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.date' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.matchDate}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="team1">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.localteam' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'user.email' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.team1}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="team2">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.visitingteam' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.visitingteam' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.team2}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="seeleague">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.seeleague' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.seeleague' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <button mat-icon-button color="warn"
+                                            [routerLink]="['/league', element.idChampionship]">
+                                            <i class="material-icons">navigate_next</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsLeague"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsLeague;"></tr>
+                        </table>
+                        <mat-paginator *ngIf="getLeagueEventsPageOptions().length > 0"
+                            [length]="getLeagueEventsPageOptions().length"
+                            [pageSize]="getLeagueEventsPageOptions().pageSize" [pageSizeOptions]="[5, 10, 25]"
+                            (page)="changePage('League', $event)" class="mt-2 mb-3"></mat-paginator>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 text-center"><button class="button-black" (click)="showMore(event.label)"
+                        *ngIf="getMoreLeagueEvents()" mat-raised-button>{{'user.showmore' | translate}}</button></div>
+            </div>
+            <div *ngIf="event.open && event.label === 'tournaments' && getTournamentEvents()" class="row slider">
+                <div class="col-12 mb-3 text-justify" *ngIf="getTournamentEvents().length === 0">
+                    <h4>{{'user.notournamentssoon' | translate}}</h4>
+                </div>
+                <div class="col-12 mb-3" *ngFor="let tournament of getTournamentEvents()">
+                    <mat-card class="mat-card mat-card-grey mat-card-click" (click)="show('tournament', tournament)">
+                        {{tournament.championshipname}} - {{tournament.teamname}}<i
+                            class="fas fa-chevron-down stats-icon-white"
+                            *ngIf="!active('tournament', tournament.id)"></i><i
+                            class="fas fa-chevron-up stats-icon-white" *ngIf="active('tournament', tournament.id)"></i>
+                    </mat-card>
+                    <div class="col-12 mt-3 mt-lg-0" *ngIf="active('tournament', tournament.id)">
+                        <table mat-table [dataSource]="getTournamentDataSource()" class="mat-elevation-z8 mt-3 mb-3">
+
+                            <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.date' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.date' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.matchDate}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="team1">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.localteam' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'user.email' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.team1}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="team2">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.visitingteam' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.visitingteam' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.team2}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="phase">
+                                <th mat-header-cell *matHeaderCellDef> {{'championship.phase' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'championship.phase' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <span>{{element.phase}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="seetournament">
+                                <th mat-header-cell *matHeaderCellDef> {{'teams.seetournament' | translate}} </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="mobile-label">
+                                        <span>{{'teams.seetournament' | translate}}</span>
+                                    </div>
+                                    <div class="mobile-data">
+                                        <button mat-icon-button color="warn"
+                                            [routerLink]="['/tournament', element.idChampionship]">
+                                            <i class="material-icons">navigate_next</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsTournament"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsTournament;"></tr>
+                        </table>
+                        <mat-paginator *ngIf="getLeagueEventsPageOptions().length > 0"
+                            [length]="getLeagueEventsPageOptions().length"
+                            [pageSize]="getLeagueEventsPageOptions().pageSize" [pageSizeOptions]="[5, 10, 25]"
+                            (page)="changePage('League', $event)" class="mt-2 mb-3"></mat-paginator>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 text-center"><button class="button-black" (click)="showMore(event.label)"
+                        *ngIf="getMoreTournamentEvents()" mat-raised-button>{{'user.showmore' | translate}}</button>
+                </div>
+            </div>
+            <div *ngIf="event.open && event.label === 'meets' && getMeetEvents()" class="row slider">
+                <div class="col-12 mb-3 text-justify" *ngIf="!getMeetEvents().length">
+                    <h4>{{'user.nomeetssoon' | translate}}</h4>
+                </div>
+                <div class="col-12 mb-3" *ngFor="let meet of getMeetEvents()">
+                    <mat-card class="mat-card mat-card-grey mat-card-click" (click)="show('meet', meet)">
+                        {{meet.name}}<i class="fas fa-chevron-down stats-icon-white"
+                            *ngIf="!active('meet', meet.id)"></i><i class="fas fa-chevron-up stats-icon-white"
+                            *ngIf="active('meet', meet.id)"></i>
+                    </mat-card>
+                    <div *ngIf="active('meet', meet.id)" class="row mt-3 text-center">
+                        <div class="col-12 col-lg-4 mb-2 mt-2">
+                            <div class="font-weight-bold">{{'meets.name' | translate}}</div>
+                            <div>{{meet.name}}</div>
+                        </div>
+                        <div class="col-12 col-lg-4 mb-2">
+                            <div class="font-weight-bold">{{'meets.sport' | translate}}</div>
+                            <div>{{meet.sport}}</div>
+                        </div>
+                        <div class="col-12 col-lg-4 mb-2">
+                            <div class="font-weight-bold">{{'meets.location' | translate}}</div>
+                            <div>{{meet.location}}</div>
+                        </div>
+                        <div class="col-12 mb-2 mt-2">
+                            <div class="font-weight-bold">{{countdown}}</div>
+                        </div>
+                        <div class="col-12 col-lg-12">
+                            <button mat-raised-button [routerLink]="['/meet', meet.id]">{{'meets.seemeet' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 text-center"><button class="button-black" (click)="showMore(event.label)"
+                        *ngIf="getMoreMeetEvents()" mat-raised-button>{{'user.showmore' | translate}}</button></div>
+            </div>
+        </div>
+    </div>
+</div>

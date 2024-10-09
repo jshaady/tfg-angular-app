@@ -1,0 +1,43 @@
+<div class="container-fluid pl-5 mt-3 pr-5">
+  <div class="row">
+    <div class="col-12 col-lg-4 col-md-4 con-users">
+      <app-chat-users></app-chat-users>
+    </div>
+    <div class="col-12 col-lg-7 col-md-7 mt-5 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0 meesage-wrapper"
+      *ngIf="haveMessage() || getUserTarget()">
+      <mat-card>
+        <mat-card-header class="mb-2">
+          <img class="user-img mr-3" [src]="getUserAvatar()" alt="user-picture">
+          <span>{{getUserTarget().username}}</span>
+        </mat-card-header>
+        <mat-card-content class="chat">
+          <div class="message-wrapper ml-3" *ngFor="let message of getMessages()">
+            <div>
+              <span class="user-name">{{message.sendUser}}</span>
+              <span class="time-right">{{message.sendDate}}</span>
+              <span class="chat-text"
+                *ngFor="let messageContent of message.messageArray">{{messageContent.messageContent}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="mt-3">
+          <form [formGroup]="formMessageModel" autocomplete="off">
+            <div class="row">
+              <div class="col-12 col-lg-10">
+                <mat-form-field class="mat-form-field">
+                  <input matInput #message placeholder="{{'chat.writemessage' | translate}}" formControlName="Message">
+                  <mat-hint align="end">{{message.value.length}} / 255</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="pull-right col-12 col-lg-2 mt-2">
+                <button type="submit" class="button-submit form-control" [disabled]="formMessageModel.invalid"
+                  mat-raised-button (click)="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </form>
+        </mat-card-actions>
+      </mat-card> 
+    </div>
+
+  </div>
+</div>

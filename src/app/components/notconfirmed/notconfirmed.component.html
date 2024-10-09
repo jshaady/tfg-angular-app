@@ -1,0 +1,15 @@
+<div class="container mt-5">
+  <div class="row form-wrapper pt-4 pb-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-4">{{'notconfirmed.confirmemail' | translate}}</h2>
+      <h4 class="mb-3">{{'notconfirmed.clicklink' | translate}}</h4>
+      <h4>{{'notconfirmed.afterconfirm' | translate}}</h4>
+    </div>
+    <div class="col-12">
+      <div class="button-row mt-4 text-center">
+        <button class="button-submit" mat-raised-button
+          (click)="resendEmail()">{{'notconfirmed.resend' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

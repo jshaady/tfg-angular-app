@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row" *ngIf="getTeam()">
+    <div class="col-12 col-lg-6 member-wrapper">
+      <div class="member-header">
+        <span class="header-span"><b>{{'teams.teammembers' | translate}} ({{getTeam().usersInTeam.length}} /
+            {{getTeam().maxNumberPlayers}})</b></span>
+      </div>
+      <div class="all-members">
+        <div class="member pl-3" *ngFor="let user of getTeam().usersInTeam" [routerLink]="['/user', user.username]">
+          <img class="member-img" [src]="getUserAvatar(user.imageBase64, user.imageType)"
+            alt="{{'user.userimg' | translate}}">
+          <span class="team-name mr-2">{{user.username}}</span><i *ngIf="isLeader(user.username)"
+            class="fas fa-crown"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 header-div about-wrapper">
+      <div class="about-header-div text-center">
+        <span class="header-span">{{'teams.about' | translate}}</span>
+      </div>
+      <div class="text-justify about-text-div">
+        <span>{{getTeam().description}}</span>
+        <span *ngIf="!getTeam().description">
+          {{'teams.nodescription' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

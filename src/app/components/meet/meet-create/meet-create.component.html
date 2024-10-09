@@ -1,0 +1,100 @@
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-4 offset-lg-4 pb-3 pt-3 mb-2">
+            <form [formGroup]="formModel" autocomplete="off" (submit)="onSubmit()">
+                <mat-card class="text-center">
+                    <mat-card-content>
+                        <h2>{{'meets.createmeet' | translate}}</h2>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput #name placeholder="{{'meets.name' | translate}}" formControlName="Name"
+                                    [errorStateMatcher]="matcher">
+                                <mat-hint align="end">{{name.value.length}} / 60</mat-hint>
+                                <mat-error
+                                    *ngIf="formModel.get('Name').touched && formModel.get('Name').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Name').touched && formModel.get('Name').errors?.minlength">
+                                    {{'errors.Name cannot be less than 5 characters' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Name').touched && formModel.get('Name').errors?.maxlength">
+                                    {{'errors.Name cannot have more than 60 characters' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <textarea matInput #description rows="3"
+                                    placeholder="{{'meets.description' | translate}}" formControlName="Description"
+                                    [errorStateMatcher]="matcher"></textarea>
+                                <mat-error
+                                    *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.minlength">
+                                    {{'errors.Description cannot be less than 5 characters' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.maxlength">
+                                    {{'errors.Description cannot have more than 512 characters' | translate}}
+                                </mat-error>
+                                <mat-hint align="end">{{description.value.length}} / 255</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput placeholder="{{'championship.sport' | translate}}"
+                                    formControlName="Sport" [errorStateMatcher]="matcher">
+                                <mat-error
+                                    *ngIf="formModel.get('Sport').touched && formModel.get('Sport').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                                    autocapitalize="off" spellcheck="false" name="Location" formControlName="Location"
+                                    ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                                    (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher" />
+                                <mat-icon matSuffix><i class="fas fa-map-marker-alt"></i></mat-icon>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
+                                    {{'errors.fieldmandatory' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.minlength">
+                                    {{'errors.Location cannot be empty' | translate}}
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.maxlength">
+                                    {{'errors.Location cannot have more than 255 characters' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-3">
+                            <mat-form-field class="mat-form-field">
+                                <input matInput [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
+                                    placeholder="{{'login.choosedate' | translate}}" readonly="readonly"
+                                    formControlName="Date">
+                                <mat-icon matSuffix><i class="far fa-calendar-alt"></i></mat-icon>
+                                <owl-date-time #dt2></owl-date-time>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <div class="text-danger" *ngFor="let error of getErrors()" [translate]="'errors.' + error">
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <div class="col-12 mt-3">
+                    <button type="submit" class="button-submit" mat-raised-button
+                        [disabled]="formModel.invalid || isSaving()">{{'meets.createmeet' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

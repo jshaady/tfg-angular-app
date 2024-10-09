@@ -1,0 +1,130 @@
+<div class="container mt-3" *ngIf="getUser()">
+    <div class="row">
+        <div class="col-12 mb-3" *ngFor="let sport of sports">
+            <mat-card class="mb-2 mat-card-click" (click)="seeStats(sport)">
+                {{'sports.' + sport.label + 'stats' | translate}}<i class="fas fa-chevron-down stats-icon"
+                    *ngIf="!sport.open"></i><i class="fas fa-chevron-up stats-icon" *ngIf="sport.open"></i></mat-card>
+            <div *ngIf="sport.open && getStats()" class="row slider">
+                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                    <mat-card class="text-center">
+                        <mat-card-content>
+                            <div class="mb-2 static-text">{{'teams.tournamentsplayed' | translate}}</div>
+                            <div>{{getLeaguesPlayed()}}</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                    <mat-card class="text-center">
+                        <mat-card-content>
+                            <div class="mb-2 static-text">{{'teams.leaguesplayed' | translate}}</div>
+                            <div>{{getTournamentsPlayed()}}</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+                    <mat-card class="text-center">
+                        <mat-card-content>
+                            <div class="mb-2 static-text">{{'teams.percentagewon' | translate}}</div>
+                            <div>{{getWinRatio()}}%</div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+              
+                <div class="col-12 mt-3 mt-lg-0">
+                    <table mat-table [dataSource]="getDataSource()" class="mat-elevation-z8 mt-3 mb-3">
+
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> {{'teams.date' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'teams.date' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <span>{{element.matchDate}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="team1">
+                            <th mat-header-cell *matHeaderCellDef> {{'teams.localteam' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'user.email' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <span>{{element.team1}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="result">
+                            <th mat-header-cell *matHeaderCellDef> {{'championship.result' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'championship.result' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <span>{{element.matchResult1}} - {{element.matchResult2}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="team2">
+                            <th mat-header-cell *matHeaderCellDef> {{'teams.visitingteam' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'teams.visitingteam' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <span>{{element.team2}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="phase">
+                            <th mat-header-cell *matHeaderCellDef> {{'championship.phase' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'championship.phase' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <span>{{element.phase}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="seeleagueortournament">
+                            <th mat-header-cell *matHeaderCellDef> {{'teams.seeleagueortournament' | translate}} </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="mobile-label">
+                                    <span>{{'teams.seeleagueortournament' | translate}}</span>
+                                </div>
+                                <div class="mobile-data">
+                                    <button mat-icon-button color="warn"
+                                        [routerLink]="['/tournament', element.idChampionship]"
+                                        *ngIf="element.phase != null">
+                                        <!-- <mat-icon class="mat-18">{{'user.delete' | translate}}</mat-icon> -->
+                                        <i class="material-icons">navigate_next</i>
+                                    </button>
+                                    <button mat-icon-button color="warn"
+                                        [routerLink]="['/league', element.idChampionship]"
+                                        *ngIf="element.phase === null">
+                                        <!-- <mat-icon class="mat-18">{{'user.delete' | translate}}</mat-icon> -->
+                                        <i class="material-icons">navigate_next</i>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator *ngIf="getUserStatsPageOptions().length > 0"
+                        [length]="getUserStatsPageOptions().length" [pageSize]="getUserStatsPageOptions().pageSize"
+                        [pageSizeOptions]="[5, 10, 25, 100]" (page)="changePage($event)" class="mt-2 mb-3">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

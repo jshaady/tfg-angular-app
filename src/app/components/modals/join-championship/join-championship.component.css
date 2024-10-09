@@ -1,0 +1,33 @@
+h1 {
+    font-family: 'Righteous', Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+h1, h3, .team-name {
+    color: blacks;
+}
+
+.champ-name-wrapper {
+    border-bottom: 1px solid rgb(255, 150, 64);
+}
+
+.all-members{
+    overflow-y: scroll;
+    max-height: 700px;
+}
+
+/* scrollbar */
+.all-members::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+    
+.all-members::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+    
+.all-members::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(255, 150, 64);
+}

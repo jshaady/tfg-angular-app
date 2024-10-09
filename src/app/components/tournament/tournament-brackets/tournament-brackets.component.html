@@ -1,0 +1,156 @@
+<div class="container-fluid mt-3" *ngIf="getMatches()">
+
+  <div class="row pb-2 mr-2 no-matches text-center" *ngIf="getMatches().length == 0">
+    <div class="col-12 text-center">
+      <h2>{{'championship.notmatches' | translate}}</h2>
+    </div>
+  </div>
+
+  <div class="col-12 mb-3">
+    <button class="button-submit" mat-raised-button (click)="generateNextPhase()"
+      *ngIf="nextPhase() && isCreator() && inProgress()">
+      {{'championship.generatenextphase' | translate }}
+    </button>
+  </div>
+
+
+  <div class="bracket mb-4">
+
+    <section class="round round-of-32" *ngIf="isRoundOf32()">
+      <div class="winners" *ngFor="let matches of getRoundOf32()">
+        <div class="matchups">
+          <div class="matchup" *ngFor="let match of matches">
+            <div class="participants">
+              <div class="participant" [class.winner]="isWinner(match.matchResult1, match.matchResult2)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team1.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult1}}</span>
+                </span>
+                <span *ngIf="noMatch(match.team2)">
+                  {{match.team1.teamname}}
+                </span>
+              </div>
+              <div class="participant" [class.winner]="isWinner(match.matchResult2, match.matchResult1)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team2.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult2}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="connector">
+          <div class="merger"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="round round-of-16" *ngIf="isRoundOf16()">
+      <div class="winners" *ngFor="let matches of getRoundOf16()">
+        <div class="matchups">
+          <div class="matchup" *ngFor="let match of matches">
+            <div class="participants">
+              <div class="participant" [class.winner]="isWinner(match.matchResult1, match.matchResult2)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team1.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult1}}</span>
+                </span>
+                <span *ngIf="noMatch(match.team2)">
+                  {{match.team1.teamname}}
+                </span>
+              </div>
+              <div class="participant" [class.winner]="isWinner(match.matchResult2, match.matchResult1)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team2.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult2}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="connector">
+          <div class="merger"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="round quarterfinals" *ngIf="isQuarterfinal()">
+      <div class="winners" *ngFor="let matches of getQuarterfinal()">
+        <div class="matchups">
+          <div class="matchup" *ngFor="let match of matches">
+            <div class="participants">
+              <div class="participant" [class.winner]="isWinner(match.matchResult1, match.matchResult2)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team1.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult1}}</span>
+                </span>
+                <span *ngIf="noMatch(match.team2)">
+                  {{match.team1.teamname}}
+                </span>
+              </div>
+              <div class="participant" [class.winner]="isWinner(match.matchResult2, match.matchResult1)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team2.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult2}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="connector" *ngIf="getQuarterfinal().length > 0">
+          <div class="merger"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="round semifinals" *ngIf="isSemifinal()">
+      <div class="winners">
+        <div class="matchups">
+          <div class="matchup" *ngFor="let match of getSemifinalArray()">
+            <div class="participants">
+              <div class="participant" [class.winner]="isWinner(match.matchResult1, match.matchResult2)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team1.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult1}}</span>
+                </span>
+                <span *ngIf="noMatch(match.team2)">
+                  {{match.team1.teamname}}
+                </span>
+              </div>
+              <div class="participant" [class.winner]="isWinner(match.matchResult2, match.matchResult1)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team2.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult2}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="connector" *ngIf="getSemifinalArray().length > 0">
+          <div class="merger"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="round finals" *ngIf="isFinal()">
+      <div class="winners">
+        <div class="matchups">
+          <div class="matchup" *ngFor="let match of getFinalArray()">
+            <div class="participants">
+              <div class="participant" [class.winner]="isWinner(match.matchResult1, match.matchResult2)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team1.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult1}}</span>
+                </span>
+                <span *ngIf="noMatch(match.team2)">
+                  {{match.team1.teamname}}
+                </span>
+              </div>
+              <div class="participant" [class.winner]="isWinner(match.matchResult2, match.matchResult1)">
+                <span *ngIf="!noMatch(match.team2)">
+                  {{match.team2.teamname}}<span *ngIf="matchPlayed(match.matchResult1)" class="played-span"> - {{match.matchResult2}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

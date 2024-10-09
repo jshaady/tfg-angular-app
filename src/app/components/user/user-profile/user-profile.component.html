@@ -1,0 +1,103 @@
+<div class="container-fluid mt-5" *ngIf="getUser()">
+  <div class="row">
+    <mat-card class="col-12">
+      <mat-card-content>
+        <div class="col-12 pb-5 pt-3">
+          <div class="image"><img class="profile-img" [src]="getProfileAvatar()"
+              alt="{{'championship.profileimg' | translate}}"></div>
+          <div class="name"><span>{{getUser().username}}</span></div>
+        </div>
+
+        <div class="col-12 pb-3 pt-3">
+          <form [formGroup]="this.formModel" autocomplete="off" (submit)="onSubmit()" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput #name placeholder="{{'user.name' | translate}}" formControlName="Name">
+                    <mat-error *ngIf="formModel.get('Name').touched && formModel.get('Name').errors?.required">
+                      {{'errors.fieldmandatory' | translate}}
+                    </mat-error>
+                    <mat-hint align="end">{{name.value.length}} / 30</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput #surname placeholder="{{'user.surname' | translate}}" formControlName="Surname">
+                    <mat-error *ngIf="formModel.get('Surname').touched && formModel.get('Surname').errors?.required">
+                      {{'errors.fieldmandatory' | translate}}
+                    </mat-error>
+                    <mat-hint align="end">{{surname.value.length}} / 50</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput placeholder="{{'user.email' | translate}}" disabled value="{{getUser().email}}">
+                  </mat-form-field>
+                </div>
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput [matDatepicker]="pickerBirthdate" placeholder="{{'user.birthday' | translate}}"
+                      formControlName="Birthdate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerBirthdate"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerBirthdate></mat-datepicker>
+                    <mat-error
+                      *ngIf="formModel.get('Birthdate').touched && formModel.get('Birthdate').errors?.required">
+                      {{'errors.fieldmandatory' | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput #country placeholder="{{'user.country' | translate}}" formControlName="Country">
+                    <mat-error *ngIf="formModel.get('Country').touched && formModel.get('Country').errors?.required">
+                      {{'errors.fieldmandatory' | translate}}
+                    </mat-error>
+                    <mat-hint align="end">{{country.value.length}} / 20</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="dato">
+                  <mat-form-field class="mat-form-field">
+                    <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off"
+                      autocapitalize="off" spellcheck="false" formControlName="Location" ngx-google-places-autocomplete
+                      [options]='options' #placesRef="ngx-places" (focusout)="focusOut($event.target.value)"
+                      [errorStateMatcher]="matcher">
+                    <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
+                      {{'errors.fieldmandatory' | translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="dato file-field input-field">
+                  <form enctype="multipart/form-data" [formGroup]="formModelAvatar" (submit)="uploadFile()">
+                    <button type="button" class="button-submit" mat-raised-button
+                      (click)="fileInput.click()">{{'teams.chooseimage' | translate}}</button>
+                    <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+                    <mat-form-field class="mat-form-field">
+                      <input matInput value="{{fileName}}" disabled>
+                    </mat-form-field>
+                    <button type="submit" class="button-submit form-control"
+                      [disabled]="formModelAvatar.invalid || isSaving()"
+                      mat-raised-button>{{'user.saveimg' | translate}}</button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="col-12 mb-3">
+                <div class="text-danger" *ngFor="let error of getErrors()" [translate]="'errors.' + error"></div>
+              </div>
+
+              <div class="col-lg-4 offset-lg-4 submit-div">
+                <button type="submit" class="button-submit form-control" [disabled]="formModel.invalid || isSaving()"
+                  mat-raised-button>{{'user.save' | translate}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

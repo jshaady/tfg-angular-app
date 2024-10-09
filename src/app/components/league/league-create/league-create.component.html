@@ -1,0 +1,165 @@
+<div class="container-fluid mt-5 mb-5">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="onSubmit()" enctype="multipart/form-data">
+        <div class="row">
+          <h2 class="pl-3">{{'championship.createleague' | translate}}</h2>
+          <div class="col-12">
+            <mat-card class="text-center">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-lg-4 pb-3 pt-3 mb-2 form-wrapper">
+                    <div class="mb-3">
+                      <mat-form-field class="mat-form-field">
+                        <input matInput #name placeholder="{{'championship.leaguename' | translate}}"
+                          formControlName="ChampionshipName" [errorStateMatcher]="matcher">
+                        <mat-error
+                          *ngIf="formModel.get('ChampionshipName').touched && formModel.get('ChampionshipName').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('ChampionshipName').touched && formModel.get('ChampionshipName').errors?.minlength">
+                          {{'errors.Championship name cannot have less than 5 characters' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('ChampionshipName').touched && formModel.get('ChampionshipName').errors?.maxlength">
+                          {{'errors.Championship name cannot have more than 60 characters' | translate}}
+                        </mat-error>
+                        <mat-hint align="end">{{name.value.length}} / 60</mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="mb-3">
+                      <mat-form-field class="mat-form-field">
+                        <input matInput #location placeholder="{{'championship.location' | translate}}"
+                          autocorrect="off" autocapitalize="off" spellcheck="false" formControlName="Location"
+                          ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                          (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher" />
+                        <mat-error
+                          *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.minlength">
+                          {{'errors.Location cannot be empty' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.maxlength">
+                          {{'errors.Location cannot have more than 255 characters' | translate}}
+                        </mat-error>
+                        <mat-hint align="end">{{location.value.length}} / 255</mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="mb-3">
+                      <mat-form-field class="mat-form-field">
+                        <textarea matInput #description rows="3" placeholder="{{'meets.description' | translate}}"
+                          formControlName="Description" [errorStateMatcher]="matcher"></textarea>
+                        <mat-error
+                          *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.minlength">
+                          {{'errors.Description cannot have less than 5 characters' | translate}}
+                        </mat-error>
+                        <mat-error
+                          *ngIf="formModel.get('Description').touched && formModel.get('Description').errors?.maxlength">
+                          {{'errors.Description cannot have more than 512 characters' | translate}}
+                        </mat-error>
+                        <mat-hint align="end">{{description.value.length}} / 255</mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 form-wrapper pb-3 pt-3 mb-2">
+                    <div class="mb-3" *ngIf="!otherSport">
+                      <mat-form-field>
+                        <mat-label>{{'championship.sport' | translate}}</mat-label>
+                        <mat-select formControlName="Sport">
+                          <mat-option *ngFor="let sport of sports" [value]="sport">
+                            {{'sports.' + sport | translate}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formModel.get('Sport').touched && formModel.get('Sport').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                      </mat-form-field>
+                      <button type="button" class="form-control" mat-raised-button
+                        (click)="otherSport = !otherSport">{{'championship.other' | translate}}</button>
+                    </div>
+
+                    <div class="mb-3" *ngIf="otherSport">
+                      <mat-form-field class="mat-form-field">
+                        <input matInput #sport placeholder="{{'championship.sport' | translate}}"
+                          formControlName="Sport" [errorStateMatcher]="matcher">
+                        <mat-error *ngIf="formModel.get('Sport').touched && formModel.get('Sport').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <mat-hint align="end">{{sport.value.length}} / 35</mat-hint>
+                      </mat-form-field>
+                      <button type="button" class="form-control" mat-raised-button
+                        (click)="otherSport = !otherSport">{{'championship.default' | translate}}</button>
+                    </div>
+
+                    <div class="mb-3">
+                      <mat-form-field>
+                        <mat-label>{{'championship.maxparticipants' | translate}}</mat-label>
+                        <mat-select formControlName="NumMax">
+                          <mat-option *ngFor="let num of numParticipants" [value]="num">
+                            {{num}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formModel.get('NumMax').touched && formModel.get('NumMax').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 form-wrapper pb-3 pt-3 mb-2">
+                    <div class="mb-3">
+                      <mat-form-field class="mat-form-field">
+                        <input matInput [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"
+                          placeholder="{{'championship.finalinscription' | translate}}" readonly="readonly"
+                          formControlName="InscriptionFinal">
+                        <mat-icon matSuffix><i class="far fa-calendar-alt"></i></mat-icon>
+                        <mat-error
+                          *ngIf="formModel.get('InscriptionFinal').touched && formModel.get('InscriptionFinal').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <owl-date-time #dt1></owl-date-time>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="mb-1">
+                      <mat-form-field class="mat-form-field">
+                        <input matInput [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2"
+                          placeholder="{{'championship.initleague' | translate}}" readonly="readonly"
+                          formControlName="ChampionshipInit">
+                        <mat-icon matSuffix><i class="far fa-calendar-alt"></i></mat-icon>
+                        <mat-error
+                          *ngIf="formModel.get('ChampionshipInit').touched && formModel.get('ChampionshipInit').errors?.required">
+                          {{'errors.fieldmandatory' | translate}}
+                        </mat-error>
+                        <owl-date-time #dt2></owl-date-time>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="mb-3 col-12">
+                    <div class="text-danger" *ngFor="let error of getErrors()" [translate]="'errors.' + error"></div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col-12 col-lg-4 offset-lg-4 mt-3">
+            <button type="submit" class="button-submit" mat-raised-button
+              [disabled]="formModel.invalid || isSaving()">{{'championship.create' | translate}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

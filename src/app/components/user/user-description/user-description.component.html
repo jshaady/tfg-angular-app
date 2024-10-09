@@ -1,0 +1,25 @@
+<div class="container" *ngIf="getUser()">
+  <div class="row">
+    <div class="col-12 col-lg-6 member-wrapper">
+      <div class="all-members">
+        <div class="member pl-3" *ngFor="let team of getUser().teams" [routerLink]="['/team', team.teamname]">
+          <img class="member-img" [src]="getTeamAvatar(team.imageBase64, team.imageType)"
+            alt="{{'user.userimg' | translate}}">
+          <span class="team-name mr-2">{{team.teamname}}</span><i *ngIf="isLeader(team.userLeader)"
+            class="fas fa-crown"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 header-div about-wrapper">
+      <div class="about-header-div text-center">
+        <span class="header-span">{{'teams.about' | translate}}</span>
+      </div>
+      <div class="text-justify about-text-div">
+        <span>{{getUser().description}}</span>
+        <span *ngIf="!getUser().description">
+          {{'teams.nodescription' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

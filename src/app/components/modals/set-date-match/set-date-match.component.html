@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="addDate()" enctype="multipart/form-data">
+        <div class="row">
+          <div class="mb-2">
+            <h2>{{'championship.setdate' | translate}}</h2>
+          </div>
+
+          <div class="col-12">
+            <span>{{data.team1.teamname}} - {{data.team2.teamname}}</span>
+          </div>
+
+          <div class="col-12 mt-3" *ngIf="canAcceptDate() && getMatchDates().length == 0">
+            <span class="no-days">{{'championship.nodaysoffer' | translate}}</span>
+          </div>
+
+          <div class="col-12" *ngIf="canDeleteDate()">
+            <div class="mb-3" *ngIf="!maxDates()">
+              <mat-form-field class="mat-form-field">
+                <input matInput [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"
+                  placeholder="{{'championship.matchdate' | translate}}" readonly="readonly"
+                  formControlName="MatchDate">
+                <mat-icon matSuffix><i class="far fa-calendar-alt"></i></mat-icon>
+                <mat-error *ngIf="formModel.get('MatchDate').touched && formModel.get('MatchDate').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+                <owl-date-time #dt1></owl-date-time>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-12 submit-div text-center mb-4" *ngIf="canDeleteDate() && !maxDates()">
+            <button type="submit" class="button-submit form-control" mat-raised-button
+              [disabled]="noDate()">{{'championship.adddate' | translate}}</button>
+          </div>
+
+          <div class="col-12 text-center mb-2">
+            <div *ngFor="let date of getMatchDates()" class="row mt-3">
+              
+              <div class="col-12 col-md-9 col-lg-9 pt-2 text-center"><b>{{dateFormat(date)}}</b></div>
+              
+              <div class="col-12 col-md-3 col-lg-3 text-center" *ngIf="canDeleteDate()"><button type="button"
+                  class="button-delete form-control" (click)="deleteDate(date)" mat-raised-button><i
+                    class="fas fa-times"></i></button></div>
+
+              <div class="col-12 col-md-3 col-lg-3 text-center" *ngIf="canAcceptDate()"><button type="button"
+                  class="button-accept form-control" (click)="acceptDate(date)" mat-raised-button><i
+                    class="fas fa-check"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

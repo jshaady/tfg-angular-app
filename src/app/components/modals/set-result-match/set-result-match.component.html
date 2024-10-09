@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="formModel" autocomplete="off" (submit)="setResult()" enctype="multipart/form-data">
+        <div class="row">
+          <div class="mb-2">
+            <h2>{{'championship.setresult' | translate}}</h2>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6">
+            <div class="mb-3">
+              <label>{{data.team1}}</label>
+              <mat-form-field class="mat-form-field">
+                <input matInput type="number"
+                  formControlName="MatchResult1">
+                <mat-error
+                  *ngIf="formModel.get('MatchResult1').touched && formModel.get('MatchResult1').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6">
+            <div class="mb-3"> 
+              <label>{{data.team2}}</label>
+              <mat-form-field class="mat-form-field">
+                <input matInput type="number"
+                  formControlName="MatchResult2">
+                <mat-error
+                  *ngIf="formModel.get('MatchResult2').touched && formModel.get('MatchResult2').errors?.required">
+                  {{'errors.fieldmandatory' | translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-12 submit-div text-center">
+            <button type="submit" class="button-submit form-control"  mat-raised-button
+              [disabled]="formModel.invalid">{{'setresult.updateresult' | translate}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="container-fluid description-wrapper mb-3" *ngIf="getChampionship()">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-4 mx-auto mt-3">
+      <mat-card>
+        <mat-card-content>
+          <div class="pt-3 pb-3 state-header">
+            <h5>{{'championship.information' | translate}}</h5>
+          </div>
+          <div class="row">
+
+            <div class="col-12 col-lg-8">
+              <span>{{'championship.createdby' | translate}}</span>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-righ mb-2">
+              <a class="creator-user"
+                [routerLink]="['/user', getChampionship().creatorUser]">{{getChampionship().creatorUser}}</a>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <span>{{'championship.status' | translate}}</span>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-righ mb-2">
+              <span>{{ 'championship.' + getChampionship().state | translate}}</span>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <span>{{'championship.initinscription' | translate}}</span>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-righ mb-2">
+              <span>{{getChampionship().startInscription}}</span>
+            </div>
+
+            <div class="col-12 col-lg-8">
+              <span>{{'championship.finalinscription' | translate}}</span>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-righ mb-2">
+              <span>{{getChampionship().endInscription}}</span>
+            </div>
+
+
+            <div class="col-12 col-lg-8">
+              <span>{{'championship.initleague' | translate}}</span>
+            </div>
+            <div class="col-12 col-lg-4 text-lg-righ mb-2">
+              <span>{{getChampionship().startChampionship}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-lg-4 mx-auto mt-3">
+      <mat-card>
+        <mat-card-content>
+          <div class="pt-3 pb-2 state-header">
+            <h5>{{'championship.description' | translate}}</h5>
+          </div>
+          <p class="text-justify description">{{getChampionship().description}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 mb-3 col-lg-4 mb-lg-0 mx-auto mt-3">
+      <mat-card>
+        <mat-card-content>
+          <div class="pt-3 pb-3 state-header">
+            <h5>{{'championship.teamsparticipants' | translate}}
+              ({{getChampionship().teamsInChampionship.length}}/{{getChampionship().numMaxTeams}})</h5>
+          </div>
+          <div class="member-wrapper">
+            <div class="all-members">
+              <div class="member pl-3 pb-2" *ngFor="let team of getChampionship().teamsInChampionship; let i = index"
+                [routerLink]="['/team', team.teamname]">
+                <span class="team-name mr-2">{{i+1}}º - {{team.teamname}}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

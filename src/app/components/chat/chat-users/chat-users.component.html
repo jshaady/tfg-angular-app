@@ -1,0 +1,28 @@
+<div class="col-12 mb-3 mt-3">
+  <form [formGroup]="formCheckUserModel" autocomplete="off" (submit)="checkUser()">
+    <div class="col-12 col-lg-9 user-list-search">
+      <mat-form-field class="mat-form-field">
+        <input matInput placeholder="{{'chat.username' | translate}}" formControlName="Username">
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-lg-3 user-list-search">
+      <button type="submit" class="button-submit form-control" [disabled]="formCheckUserModel.invalid" mat-raised-button><i
+          class="fas fa-search"></i></button>
+    </div>
+    <div class="col-12" *ngIf="getErrorMessage()"><label class="text-danger">{{'responsemessages.' + getErrorMessage() | translate}}</label></div>
+  </form>
+</div>
+
+<div class="all-members">
+  <div class="col-12" *ngFor="let user of getUsers()" (click)="checkMessage(user)">
+    <mat-card class="users-chat-wrapper" [class.user-selected]="isSelected(user)">
+      <mat-card-content>
+        <div class="image">
+          <img class="profile-img" [src]="getUserAvatar(user.imageBase64, user.imageType)" alt="user-picture">
+        </div>
+        <span class="ml-4">{{user.username}}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

@@ -1,0 +1,42 @@
+.row { margin: auto !important; }
+
+h5 { padding-top: 40%; }
+
+table { width: 100%; }
+table th { background-color: #1F2127; color: white; }
+.mat-row:nth-child(even){ background-color: rgba(31, 33, 39, 0.10); }
+.mat-row:hover{ background-color: rgb(255, 150, 64, 0.35);cursor: pointer; }
+
+.button{
+  background-color: rgb(255, 150, 64);
+  font-weight: bold;
+  color: #000;
+  border-radius: 50px;
+  padding: 0.40em 4em;
+  font-size: 18px;
+}
+
+.button-create:hover {
+  background: #000;
+  color: white;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 600px) {
+  mat-form-field{
+    margin-right: 0em;
+  }
+  button{
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 991.98px) { 
+  h5 {
+    padding-top: 0;
+  }
+
+  .meet-title {
+    margin-bottom: 3rem;
+  }
+}

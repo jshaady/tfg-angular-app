@@ -1,0 +1,102 @@
+
+.row { margin: auto !important; }
+mat-card { height: 400px; }
+
+h5 {
+    font-family: 'Roboto', sans-serif;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+span {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+.description{
+    font-size: .9rem;
+}
+
+.creator-user {
+    font-family: 'Roboto', sans-serif;
+    font-variant-caps: all-petite-caps;
+    font-size: 20.5px;
+    color: rgb(255, 150, 64);
+}
+
+.member-wrapper, .about-wrapper{
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 1.3rem;
+}
+
+.member-header, .about-header-div{
+    font-weight: bold;
+    text-align: center;
+}
+
+.all-members {
+    overflow-y: scroll;
+    max-height: 290px;
+}
+
+
+/* Efecto de transicion de divs de .member */
+.member {
+    position: relative;
+    -webkit-transition: color 500ms;
+    transition: color 500ms;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    cursor: pointer;
+}
+
+.member:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: -1;
+    background: rgb(255, 150, 64);;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transform-origin: 100% 50%;
+    transform-origin: 100% 50%;
+    -webkit-transition: 300ms ease-out;
+    transition: 300ms ease-out;
+}
+
+member:hover > .fa-crown {
+    color: black;
+}
+
+.member:hover:before {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+}
+
+/* scrollbar */
+.all-members::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+  
+.all-members::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+  
+.all-members::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(255, 150, 64);
+}

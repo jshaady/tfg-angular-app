@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h2>{{'header.signup' | translate}}</h2>
+      <form [formGroup]="formModel" autocomplete="off">
+        <div class="mb-3">
+          <mat-form-field class="mat-form-field">
+            <input matInput placeholder="{{'login.username' | translate}}" formControlName="UserName"
+              [errorStateMatcher]="matcher">
+            <mat-error *ngIf="formModel.get('UserName').touched && formModel.get('UserName').errors?.required">
+              {{'errors.fieldmandatory' | translate}}
+            </mat-error>
+            <mat-error *ngIf="formModel.get('UserName').touched && formModel.get('UserName').errors?.minlength">
+              {{'errors.Username cannot have less than 4 characters' | translate}}
+            </mat-error>
+            <mat-error *ngIf="formModel.get('UserName').touched && formModel.get('UserName').errors?.maxlength">
+              {{'errorsd.Username cannot have more than 20 characters' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mb-3">
+          <mat-form-field class="mat-form-field">
+            <input matInput type="password" placeholder="{{'login.password' | translate}}" formControlName="Password"
+              [errorStateMatcher]="matcher" autocomplete="autocomplete">
+            <mat-error *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.required">
+              {{'errors.fieldmandatory' | translate}}
+            </mat-error>
+            <mat-error *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.minlength">
+              {{'errors.The password cannot have less than 5 characters' | translate}}
+            </mat-error>
+            <mat-error *ngIf="formModel.get('Password').touched && formModel.get('Password').errors?.maxlength">
+              {{'errors.The password cannot have more than 25 characters' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mb-3">
+          <mat-form-field class="mat-form-field">
+            <input matInput placeholder="{{'login.email' | translate}}" formControlName="Email"
+              [errorStateMatcher]="matcher">
+            <mat-error *ngIf="formModel.get('Email').touched && formModel.get('Email').errors?.required">
+              {{'errors.fieldmandatory' | translate}}
+            </mat-error>
+            <mat-error *ngIf="formModel.get('Email').touched && formModel.get('Email').errors?.email">
+              {{'errors.Incorrect email' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mb-3">
+          <mat-form-field class="mat-form-field">
+            <input matInput [matDatepicker]="pickerBirthdate" placeholder="{{'login.choosedate' | translate}}"
+              formControlName="Birthdate">
+            <mat-datepicker-toggle matSuffix [for]="pickerBirthdate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerBirthdate></mat-datepicker>
+            <mat-error *ngIf="formModel.get('Birthdate').touched && formModel.get('Birthdate').errors?.required">
+              {{'errors.fieldmandatory' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="mb-3">
+          <div class="text-danger" *ngFor="let error of getErrors()">{{'errors.' + error | translate}}</div>
+        </div>
+        <div class="col-12">
+          <button type="button" (click)="onSubmit()" class="button-submit form-control" mat-raised-button
+            [disabled]="formModel.invalid || isSaving()">{{'header.signup' | translate}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

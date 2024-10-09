@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row join-championship" *ngIf="getChampionship() && getMyTeamsCreated()">
+    <div class="col-12 pt-3 pb-4 text-center">
+      <h1>{{getChampionship().championshipName}}</h1>
+    </div>
+    <div class="col-12 pt-3 pb-2 mb-2 champ-name-wrapper">
+      <h3>{{'modals.championship.teams' | translate}}</h3>
+    </div>
+    <div class="col-12 all-members">
+      <div class="col-12 row mb-3" *ngFor="let team of getMyTeamsCreated()">
+        <div class="col-12 col-lg-6"><span class="team-name">{{team.teamname}}</span></div>
+        <div class="col-12 col-lg-6 text-right">
+          <button class="button-submit" (click)="onSubmit(team.teamname)"
+            mat-raised-button>{{'modals.championship.join' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

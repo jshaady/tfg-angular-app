@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-lg-12 text-center news-button-div mb-2" *ngIf="isAdmin()"><button class="button"
+      [routerLink]="['/news/create']" mat-raised-button>{{'news.publishnews' | translate}}</button></div>
+  <div class="col-12">
+    <div class="text-center mt-5" *ngIf="getNews() && !getNews().length">
+      <h4>{{'news.nonews' | translate}}</h4>
+    </div>
+    <div *ngIf="getNews() && getNews().length" class="news">
+      <div class="news-container col-12" *ngFor="let news of getNews()">
+        <div class="news-header mt-3 pt-4 pb-4" *ngIf="hasImage(news)">
+          <div class="news-author pt-4 pb-4">
+            <img class="user-img mr-4" [src]="getUserImg(news.sendUser)" alt="profile-picture">
+            <h4>{{news.sendUser.username}}</h4>
+          </div>
+          <div class="image text-center pt-4">
+            <img class="img-fluid" [src]="getImage(news)" />
+          </div>
+        </div>
+        <div class="news-header pt-4 pb-4" *ngIf="!hasImage(news)">
+          <div class="news-author pt-4 pb-4">
+            <img class="user-img mr-4" [src]="getUserImg(news.sendUser)" alt="profile-picture">
+            <h3>{{news.sendUser.username}}</h3>
+          </div>
+        </div>
+
+        <div class="news-body pt-4">
+          <div class="news-title">
+            <h1><a href="#">{{news.title}}</a></h1>
+          </div>
+          <div class="news-summary">
+            <p>{{news.message}}</p>
+          </div>
+        </div>
+
+        <div class="news-footer">
+          <ul>
+            <li class="published-date">{{news.date}}</li>
+            <li class="published-date">{{news.location}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center mt-2 mb-2" *ngIf="getNews() && getNews().length < getNewsCount()">
+        <button mat-button class="form-control" (click)="showMoreNews()">{{'news.showmorenews' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
