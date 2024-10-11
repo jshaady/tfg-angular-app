@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SetDateMatchComponent } from './set-date-match.component';
+import { SetDateMatchComponent } from "./set-date-match.component";
 
-describe('SetDateMatchComponent', () => {
+describe("SetDateMatchComponent", () => {
   let component: SetDateMatchComponent;
   let fixture: ComponentFixture<SetDateMatchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetDateMatchComponent ]
-    })
-    .compileComponents();
+      declarations: [SetDateMatchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('SetDateMatchComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

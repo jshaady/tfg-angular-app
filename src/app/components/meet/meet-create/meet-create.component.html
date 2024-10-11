@@ -56,9 +56,12 @@
                         </div>
                         <div class="mb-3">
                             <mat-form-field class="mat-form-field">
-                                <input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                                <!--<input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
                                     autocapitalize="off" spellcheck="false" name="Location" formControlName="Location"
                                     ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+                                    (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher" />-->
+                                <input matInput placeholder="{{'championship.location' | translate}}" autocorrect="off"
+                                    autocapitalize="off" spellcheck="false" name="Location" formControlName="Location"
                                     (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher" />
                                 <mat-icon matSuffix><i class="fas fa-map-marker-alt"></i></mat-icon>
                                 <mat-error

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SetResultMatchComponent } from './set-result-match.component';
+import { SetResultMatchComponent } from "./set-result-match.component";
 
-describe('SetResultMatchComponent', () => {
+describe("SetResultMatchComponent", () => {
   let component: SetResultMatchComponent;
   let fixture: ComponentFixture<SetResultMatchComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetResultMatchComponent ]
-    })
-    .compileComponents();
+      declarations: [SetResultMatchComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('SetResultMatchComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

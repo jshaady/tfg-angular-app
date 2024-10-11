@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TeamViewComponent } from './team-view.component';
+import { TeamViewComponent } from "./team-view.component";
 
-describe('TeamViewComponent', () => {
+describe("TeamViewComponent", () => {
   let component: TeamViewComponent;
   let fixture: ComponentFixture<TeamViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeamViewComponent ]
-    })
-    .compileComponents();
+      declarations: [TeamViewComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TeamViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

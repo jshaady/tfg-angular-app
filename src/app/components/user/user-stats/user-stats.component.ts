@@ -1,40 +1,51 @@
-import { Component, OnInit, ContentChild } from '@angular/core';
-import { IUser } from 'src/app/interfaces/iuser';
-import { UserService } from 'src/app/services/user.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ContentChild } from "@angular/core";
+import { IUser } from "../../../interfaces/iuser";
+import { UserService } from "../../../services/user.service";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-user-stats',
-  templateUrl: './user-stats.component.html',
-  styleUrls: ['./user-stats.component.css']
+  selector: "app-user-stats",
+  templateUrl: "./user-stats.component.html",
+  styleUrls: ["./user-stats.component.css"],
 })
 export class UserStatsComponent implements OnInit {
+  @ContentChild("paginator", { static: false }) paginator:
+    | MatPaginator
+    | undefined;
 
-  @ContentChild('paginator', {static: false}) paginator: MatPaginator;
+  displayedColumns: string[] = [
+    "date",
+    "team1",
+    "result",
+    "team2",
+    "phase",
+    "seeleagueortournament",
+  ];
 
-  displayedColumns: string[] = ['date', 'team1', 'result', 'team2', 'phase', 'seeleagueortournament'];
-
-  sports: any = [{label: 'football', open: false},
-                {label: 'basketball', open: false},
-                {label: 'tennis', open: false},
-                {label: 'csgo', open: false},
-                {label: 'lol', open: false},
-                {label: 'other', open: false}];
+  sports: any = [
+    { label: "football", open: false },
+    { label: "basketball", open: false },
+    { label: "tennis", open: false },
+    { label: "csgo", open: false },
+    { label: "lol", open: false },
+    { label: "other", open: false },
+  ];
   sportOpen: any = null;
   lastFive: any = null;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  getUser(): IUser {
+  getUser(): IUser | null {
     return this.userService.getUser();
   }
 
   seeStats(sport: any): void {
     if (sport !== this.sportOpen) {
-      this.sportOpen !== null ? this.sportOpen.open = !this.sportOpen.open : null;
+      this.sportOpen !== null
+        ? (this.sportOpen.open = !this.sportOpen.open)
+        : null;
       sport.open = !sport.open;
       this.sportOpen = sport;
       if (sport.open) {
@@ -42,7 +53,7 @@ export class UserStatsComponent implements OnInit {
       }
     } else {
       sport.open = !sport.open;
-      this.sportOpen =  null;
+      this.sportOpen = null;
     }
   }
 
@@ -67,10 +78,13 @@ export class UserStatsComponent implements OnInit {
   }
 
   getWinRatio(): any {
-    if (!this.getStats().matchesPlayed){
+    if (!this.getStats().matchesPlayed) {
       return 0;
     } else {
-      return ((this.getStats().matchesWon / this.getStats().matchesPlayed) * 100).toFixed(2);
+      return (
+        (this.getStats().matchesWon / this.getStats().matchesPlayed) *
+        100
+      ).toFixed(2);
     }
   }
 
@@ -90,5 +104,4 @@ export class UserStatsComponent implements OnInit {
   isOpen(): Boolean {
     return false;
   }
-
 }

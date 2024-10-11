@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { UserNextEventsComponent } from './user-next-events.component';
+import { UserNextEventsComponent } from "./user-next-events.component";
 
-describe('UserNextEventsComponent', () => {
+describe("UserNextEventsComponent", () => {
   let component: UserNextEventsComponent;
   let fixture: ComponentFixture<UserNextEventsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserNextEventsComponent ]
-    })
-    .compileComponents();
+      declarations: [UserNextEventsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('UserNextEventsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

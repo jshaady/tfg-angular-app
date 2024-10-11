@@ -1,19 +1,20 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { ChampionshipService } from 'src/app/services/championship.service';
-import { IChampionship } from 'src/app/interfaces/ichampionship';
-import { TeamService } from 'src/app/services/team.service';
+import { Component, OnInit, EventEmitter } from "@angular/core";
+import { ChampionshipService } from "../../../services/championship.service";
+import { IChampionship } from "../../../interfaces/ichampionship";
+import { TeamService } from "../../../services/team.service";
 
 @Component({
-  selector: 'app-join-championship',
-  templateUrl: './join-championship.component.html',
-  styleUrls: ['./join-championship.component.css']
+  selector: "app-join-championship",
+  templateUrl: "./join-championship.component.html",
+  styleUrls: ["./join-championship.component.css"],
 })
 export class JoinChampionshipComponent implements OnInit {
+  private championship: IChampionship | undefined;
 
-  private championship: IChampionship;
-
-  constructor(private championshipService: ChampionshipService,
-              private teamsService: TeamService) { }
+  constructor(
+    private championshipService: ChampionshipService,
+    private teamsService: TeamService
+  ) {}
 
   ngOnInit() {
     this.championshipService.setErrorsJoinChampionship(null);
@@ -27,17 +28,18 @@ export class JoinChampionshipComponent implements OnInit {
   }
 
   getMyTeamsCreated() {
-    if (this.teamsService.getMyTeamsCreated()) return this.teamsService.getMyTeamsCreated();
+    if (this.teamsService.getMyTeamsCreated())
+      return this.teamsService.getMyTeamsCreated();
     else return null;
   }
 
   onAdd = new EventEmitter();
 
-  onSubmit(teamname) {
+  onSubmit(teamname: string) {
     let body = {
-      idChampionship: this.championship.id,
-      teamname: teamname
-    }
+      idChampionship: this.championship?.id,
+      teamname: teamname,
+    };
     this.championshipService.joinChampionship(body, this.onAdd);
   }
 
@@ -45,7 +47,4 @@ export class JoinChampionshipComponent implements OnInit {
     console.log(this.championshipService.getErrorsJoinChampionship());
     return this.championshipService.getErrorsJoinChampionship();
   }
-
-  
-
 }

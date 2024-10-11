@@ -1,44 +1,53 @@
-import { Component, OnInit, ContentChild } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { ChampionshipService } from 'src/app/services/championship.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ContentChild } from "@angular/core";
+import { UserService } from "../../../services/user.service";
+import { ChampionshipService } from "../../../services/championship.service";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-user-next-events',
-  templateUrl: './user-next-events.component.html',
-  styleUrls: ['./user-next-events.component.css']
+  selector: "app-user-next-events",
+  templateUrl: "./user-next-events.component.html",
+  styleUrls: ["./user-next-events.component.css"],
 })
 export class UserNextEventsComponent implements OnInit {
+  @ContentChild("paginator", { static: false }) paginator:
+    | MatPaginator
+    | undefined;
 
-  @ContentChild('paginator', {static: false}) paginator: MatPaginator;
+  displayedColumnsLeague: string[] = ["date", "team1", "team2", "seeleague"];
+  displayedColumnsTournament: string[] = [
+    "date",
+    "team1",
+    "team2",
+    "phase",
+    "seetournament",
+  ];
 
-  displayedColumnsLeague: string[] = ['date', 'team1', 'team2', 'seeleague'];
-  displayedColumnsTournament: string [] = ['date', 'team1', 'team2', 'phase', 'seetournament'];
-
-  private idActiveMeet: string = null;
-  private idActiveLeague: string = null;
-  private idActiveTournament: string = null;
+  private idActiveMeet: string | null = null;
+  private idActiveLeague: string | null = null;
+  private idActiveTournament: string | null = null;
 
   countdown: any = null;
   idCountDown: any;
 
-  constructor(private userService: UserService,
-              private championshipService: ChampionshipService) { }
+  constructor(
+    private userService: UserService,
+    private championshipService: ChampionshipService
+  ) {}
 
   ngOnInit() {
     this.userService.setLeagueEventsPage(0);
     this.userService.setTournamentEventsPage(0);
     this.userService.setMeetsEventsPage(0);
     this.userService.getEventsInfo().forEach((event: any) => {
-      if(event.open) {
-        if (event.label === 'leagues') {
-          this.userService.events('League');
-        } else if (event.label === 'tournaments') {
-          this.userService.events('Tournament');
-        } else if (event.label === 'meets') {
-          this.userService.events('meets');
+      if (event.open) {
+        if (event.label === "leagues") {
+          this.userService.events("League");
+        } else if (event.label === "tournaments") {
+          this.userService.events("Tournament");
+        } else if (event.label === "meets") {
+          this.userService.events("meets");
         }
-      } 
+      }
     });
   }
 
@@ -59,10 +68,13 @@ export class UserNextEventsComponent implements OnInit {
       let now = new Date().getTime();
       let distance = countDownDate - now;
       let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      this.countdown = days + "d " + hours + "h "+ minutes + "m " + seconds + "s ";
+      this.countdown =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }, 1000);
   }
 
@@ -72,31 +84,40 @@ export class UserNextEventsComponent implements OnInit {
       clearInterval(this.idCountDown);
     }
   }
-  
+
   instantInitCountdown(date: string) {
     let countDownDate = new Date(date).getTime();
     let now = new Date().getTime();
     let distance = countDownDate - now;
     let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    this.countdown = days + "d " + hours + "h "+ minutes + "m " + seconds + "s ";
+    this.countdown =
+      days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
   }
 
   seeEvents(event: any): void {
     if (!event.open) {
       event.open = !event.open;
-      this.userService.events(event.label === 'leagues' ? 'League' : event.label === 'tournaments' ? 'Tournament' : 'meets' );
+      this.userService.events(
+        event.label === "leagues"
+          ? "League"
+          : event.label === "tournaments"
+          ? "Tournament"
+          : "meets"
+      );
     } else {
       event.open = !event.open;
-      if (event.label === 'leagues') {
+      if (event.label === "leagues") {
         this.userService.setLeagueEvents(null);
         this.userService.setLeagueEventsPage(0);
-      } else if(event.label === 'tournaments') {
+      } else if (event.label === "tournaments") {
         this.userService.setTournamentEvents(null);
         this.userService.setTournamentEventsPage(0);
-      } else if(event.label === 'meets') {
+      } else if (event.label === "meets") {
         this.userService.setMeetsEvents(null);
         this.userService.setMeetsEventsPage(0);
       }
@@ -104,62 +125,67 @@ export class UserNextEventsComponent implements OnInit {
   }
 
   show(type: string, event: any): void {
-    if (type === 'meet') {
-      if(event.id === this.idActiveMeet) {
+    if (type === "meet") {
+      if (event.id === this.idActiveMeet) {
         this.idActiveMeet = null;
       } else {
         this.idActiveMeet = event.id;
         this.meetCountDown(event.date);
       }
-    } else if (type === 'league') {
-      if(event.id === this.idActiveLeague) {
+    } else if (type === "league") {
+      if (event.id === this.idActiveLeague) {
         this.idActiveLeague = null;
       } else {
         this.idActiveLeague = event.id;
-        this.championshipService.searchUserNextMatches('League');
+        this.championshipService.searchUserNextMatches("League");
       }
-    } else if (type === 'tournament') {
-      if(event.id === this.idActiveTournament) {
+    } else if (type === "tournament") {
+      if (event.id === this.idActiveTournament) {
         this.idActiveTournament = null;
       } else {
         this.idActiveTournament = event.id;
-        this.championshipService.searchUserNextMatches('Tournament');
+        this.championshipService.searchUserNextMatches("Tournament");
       }
     }
   }
 
   active(type: string, id: string): Boolean {
-    if (type === 'meet') {
+    if (type === "meet") {
       if (id === this.idActiveMeet) {
         return true;
       } else {
         return false;
       }
-    } else if (type === 'league') {
-      
+    } else if (type === "league") {
       if (id === this.idActiveLeague) {
         return true;
       } else {
         return false;
       }
-    } else if (type === 'tournament') {
+    } else if (type === "tournament") {
       if (id === this.idActiveTournament) {
         return true;
       } else {
         return false;
       }
-    }
+    } else return false;
   }
 
   showMore(type: string): void {
-    if(type === 'leagues') {
-      this.userService.setLeagueEventsPage(this.userService.getLeagueEventsPage() + 1);
-      this.userService.events('League');
-    } else if (type === 'tournaments') {
-      this.userService.setTournamentEventsPage(this.userService.getTournamentEventsPage() + 1);
-      this.userService.events('Tournament');
+    if (type === "leagues") {
+      this.userService.setLeagueEventsPage(
+        this.userService.getLeagueEventsPage() + 1
+      );
+      this.userService.events("League");
+    } else if (type === "tournaments") {
+      this.userService.setTournamentEventsPage(
+        this.userService.getTournamentEventsPage() + 1
+      );
+      this.userService.events("Tournament");
     } else {
-      this.userService.setMeetsEventsPage(this.userService.getMeetsEventsPage() + 1);
+      this.userService.setMeetsEventsPage(
+        this.userService.getMeetsEventsPage() + 1
+      );
       this.userService.events(type);
     }
   }
@@ -208,14 +234,13 @@ export class UserNextEventsComponent implements OnInit {
     return this.championshipService;
   }
 
-  changePage(type:string, event: any): void {
-    if (type === 'leagues') {
+  changePage(type: string, event: any): void {
+    if (type === "leagues") {
       this.championshipService.setLeagueEventsPageOptions(event);
-      this.championshipService.searchUserNextMatches('League');
-    } else if (type === 'tournaments') {
+      this.championshipService.searchUserNextMatches("League");
+    } else if (type === "tournaments") {
       this.championshipService.setTournamentEventsPageOptions(event);
-      this.championshipService.searchUserNextMatches('Tournament');
+      this.championshipService.searchUserNextMatches("Tournament");
     }
   }
-
 }

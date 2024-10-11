@@ -1,44 +1,48 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { IMessage } from '../interfaces/imessage';
-import { UserService } from './user.service';
-import { IUser } from '../interfaces/iuser';
-import * as io from 'socket.io-client';
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpParams,
+  HttpErrorResponse,
+} from "@angular/common/http";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { IMessage } from "../interfaces/imessage";
+import { UserService } from "./user.service";
+import { IUser } from "../interfaces/iuser";
+import { io } from "socket.io-client";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ChatService {
-
-  private readonly BaseURL = 'http://localhost:3000/chat';
+  private readonly BaseURL = "http://localhost:3000/chat";
   private socket: any;
 
-  private messages: IMessage[];
-  private userTarget: IUser = null;
+  private messages: IMessage[] | undefined;
+  private userTarget: IUser | null = null;
 
   private usersChat: any = [];
-  private chatErrorMessage: string = null;
+  private chatErrorMessage: string | null = null;
 
-  constructor(private http: HttpClient,
-              private router: Router,
-              private userService: UserService) 
-  { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   connect(): void {
-    this.socket = io('ws://localhost:3000', {
-      path: '/chat',
-      query: { auth_token: this.userService.getToken() }
+    this.socket = io("ws://localhost:3000", {
+      path: "/chat",
+      query: { auth_token: this.userService.getToken() },
     });
-    this.socket.on('error', () => {
-      this.userService.makeSnackBar('Chat connection error', 'error');
-      this.router.navigate(['/home']);
-    })
-    this.socket.on('connect', () => {
+    this.socket.on("error", () => {
+      this.userService.makeSnackBar("Chat connection error", "error");
+      this.router.navigate(["/home"]);
+    });
+    this.socket.on("connect", () => {
       this.listenChatMessage();
     });
-    this.socket.on('disconnect', () => { });
+    this.socket.on("disconnect", () => {});
   }
 
   disconnect(): void {
@@ -47,15 +51,20 @@ export class ChatService {
 
   private listenChatMessage(): void {
     new Observable((subscriber) => {
-      this.socket.on('updateMessages', (data: any) => {
+      this.socket.on("updateMessages", (data: any) => {
         subscriber.next(data);
       });
     }).subscribe((data: any) => {
-      if (data.userSend === this.userService.getLoggeduser().username) {
-        this.getChatMessages(this.userTarget);
+      if (data.userSend === this.userService.getLoggeduser()!.username) {
+        this.getChatMessages(this.userTarget!);
         this.searchUsersChat();
-      } else if(data.userTarget === this.userService.getLoggeduser().username) {
-        if (this.userTarget !== null && data.userSend === this.userTarget.username){
+      } else if (
+        data.userTarget === this.userService.getLoggeduser()!.username
+      ) {
+        if (
+          this.userTarget !== null &&
+          data.userSend === this.userTarget.username
+        ) {
           this.getChatMessages(this.userTarget);
           this.searchUsersChat();
         } else {
@@ -64,7 +73,7 @@ export class ChatService {
       }
     });
   }
-  
+
   emit(eventName: string, data: any): void {
     this.socket.emit(eventName, data);
   }
@@ -83,13 +92,13 @@ export class ChatService {
   }
 
   checkUser(username: string): void {
-    let params = new HttpParams().set('username', username);
-    this.http.get('http://localhost:3000/user/checkuser', { params }).subscribe(
-      (data: IUser) => {
+    let params = new HttpParams().set("username", username);
+    this.http.get("http://localhost:3000/user/checkuser", { params }).subscribe(
+      (data: any) => {
         this.chatErrorMessage = null;
         let userInJSON: boolean = false;
         if (this.getUsersChat().length) {
-          this.usersChat.forEach(user => {
+          this.usersChat.forEach((user: IUser) => {
             if (user.username === data.username) {
               userInJSON = true;
             }
@@ -98,8 +107,7 @@ export class ChatService {
             this.setUserChat(data);
           }
           this.getChatMessages(data);
-        }
-        else {
+        } else {
           this.setUserChat(data);
         }
       },
@@ -110,7 +118,7 @@ export class ChatService {
   }
 
   searchUsersChat(): void {
-    this.http.get<IUser[]>('http://localhost:3000/user/userchats').subscribe(
+    this.http.get<IUser[]>("http://localhost:3000/user/userchats").subscribe(
       (data: IUser[]) => {
         this.usersChat = data;
       },
@@ -122,12 +130,12 @@ export class ChatService {
     );
   }
 
-  getMessages(): IMessage[] {
+  getMessages(): IMessage[] | undefined {
     return this.messages;
   }
 
   getUserTarget(): IUser {
-    return this.userTarget;
+    return this.userTarget!;
   }
 
   setUserTarget(userTarget: IUser): void {
@@ -135,19 +143,17 @@ export class ChatService {
   }
 
   inChat(): Boolean {
-    if (this.userTarget != null){
+    if (this.userTarget != null) {
       return true;
-    }
-    else {
+    } else {
       return false;
-    } 
+    }
   }
 
   haveMessage(): Boolean {
-    if (this.messages.length) {
+    if (this.messages?.length) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -160,11 +166,11 @@ export class ChatService {
     this.usersChat.push(user);
   }
 
-  getErrorMessage(): string {
+  getErrorMessage(): string | null {
     return this.chatErrorMessage;
   }
 
-  setErrorMessage(error: string) {
+  setErrorMessage(error: string | null) {
     this.chatErrorMessage = error;
   }
 
@@ -177,20 +183,20 @@ export class ChatService {
     switch (error.status) {
       case 401:
         this.userService.logout();
-        this.userService.makeSnackBar(error.error.error, 'error');
-        this.router.navigate(['']);
+        this.userService.makeSnackBar(error.error.error, "error");
+        this.router.navigate([""]);
         break;
       case 409:
-        this.userService.makeSnackBar(error.error.error, 'error');
+        this.userService.makeSnackBar(error.error.error, "error");
         break;
       case 500:
-        this.userService.makeSnackBar(error.error.error, 'error');
+        this.userService.makeSnackBar(error.error.error, "error");
         this.userService.logout();
-        this.router.navigate(['']);
+        this.router.navigate([""]);
         break;
       default:
-        this.userService.makeSnackBar(error.error.error, 'error');
-        this.router.navigate(['']);
+        this.userService.makeSnackBar(error.error.error, "error");
+        this.router.navigate([""]);
     }
   }
 }

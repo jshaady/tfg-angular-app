@@ -1,31 +1,42 @@
-import { Component, OnInit, ContentChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MeetService } from 'src/app/services/meet.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { Component, OnInit, ContentChild } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { MeetService } from "../../../services/meet.service";
+import { MatPaginator } from "@angular/material/paginator";
+import { Router } from "@angular/router";
+import { UserService } from "../../../services/user.service";
 
 @Component({
-  selector: 'app-meets',
-  templateUrl: './meets.component.html',
-  styleUrls: ['./meets.component.css']
+  selector: "app-meets",
+  templateUrl: "./meets.component.html",
+  styleUrls: ["./meets.component.css"],
 })
 export class MeetsComponent implements OnInit {
+  formModel: FormGroup | undefined;
 
-  constructor(private userService: UserService,
-              private fb: FormBuilder,
-              private meetService: MeetService,
-              private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private meetService: MeetService,
+    private router: Router
+  ) {}
 
-  @ContentChild('paginator', {static: false}) paginator: MatPaginator;
+  @ContentChild("paginator", { static: false }) paginator:
+    | MatPaginator
+    | undefined;
 
-  displayedColumns: string[] = ['name', 'date', 'sport', 'participants', 'location'];
-  
-  formModel = this.fb.group({
-    Location: [null]
-  });
+  displayedColumns: string[] = [
+    "name",
+    "date",
+    "sport",
+    "participants",
+    "location",
+  ];
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.formModel = this.fb.group({
+      Location: [null],
+    });
+  }
 
   ngOnDestroy() {
     this.meetService.setTableVisible(false);
@@ -41,7 +52,7 @@ export class MeetsComponent implements OnInit {
   }
 
   getRecord(row: any): void {
-    this.router.navigate(['/meet', row.id]);
+    this.router.navigate(["/meet", row.id]);
   }
 
   focusOut(location: string): void {

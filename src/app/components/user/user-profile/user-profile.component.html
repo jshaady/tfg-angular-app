@@ -60,10 +60,13 @@
                 </div>
                 <div class="dato">
                   <mat-form-field class="mat-form-field">
-                    <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off"
+                    <!--<input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off"
                       autocapitalize="off" spellcheck="false" formControlName="Location" ngx-google-places-autocomplete
                       [options]='options' #placesRef="ngx-places" (focusout)="focusOut($event.target.value)"
-                      [errorStateMatcher]="matcher">
+                      [errorStateMatcher]="matcher">-->
+                    <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off"
+                      autocapitalize="off" spellcheck="false" formControlName="Location" n
+                      (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher">
                     <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
                       {{'errors.fieldmandatory' | translate}}
                     </mat-error>
@@ -80,8 +83,8 @@
                       <input matInput value="{{fileName}}" disabled>
                     </mat-form-field>
                     <button type="submit" class="button-submit form-control"
-                      [disabled]="formModelAvatar.invalid || isSaving()"
-                      mat-raised-button>{{'user.saveimg' | translate}}</button>
+                      [disabled]="formModelAvatar.invalid || isSaving()" mat-raised-button>{{'user.saveimg' |
+                      translate}}</button>
                   </form>
                 </div>
               </div>

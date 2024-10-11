@@ -1,45 +1,51 @@
-import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChampionshipService } from 'src/app/services/championship.service';
-import { FormBuilder } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { UserService } from 'src/app/services/user.service';
+import { Component, OnInit, EventEmitter, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ChampionshipService } from "../../../services/championship.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { DatePipe } from "@angular/common";
+import { UserService } from "../../../services/user.service";
 
 @Component({
-  selector: 'app-set-date-match',
-  templateUrl: './set-date-match.component.html',
-  styleUrls: ['./set-date-match.component.css']
+  selector: "app-set-date-match",
+  templateUrl: "./set-date-match.component.html",
+  styleUrls: ["./set-date-match.component.css"],
 })
 export class SetDateMatchComponent implements OnInit {
-
   data: any;
   onAdd = new EventEmitter();
+  formModel: FormGroup | undefined;
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private championshipService: ChampionshipService,
     private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) data,
-    public datepipe: DatePipe) {
-      this.data = data;
+    @Inject(MAT_DIALOG_DATA) data: any,
+    public datepipe: DatePipe
+  ) {
+    this.data = data;
   }
 
   ngOnInit() {
-    this.championshipService.getMatchDatesReq(this.data.idChampionship, this.data.team1.teamname, this.data.team2.teamname, this.onAdd);
+    this.championshipService.getMatchDatesReq(
+      this.data.idChampionship,
+      this.data.team1.teamname,
+      this.data.team2.teamname,
+      this.onAdd
+    );
+    this.formModel = this.fb.group({
+      MatchDate: [null],
+    });
   }
 
-  formModel = this.fb.group({
-    MatchDate: [null]
-  });
-
   addDate(): void {
-    if (this.formModel.get('MatchDate').value !== null) {
+    if (this.formModel?.get("MatchDate")?.value !== null) {
       const body = {
         idChampionship: this.data.idChampionship,
         team1: this.data.team1.teamname,
         team2: this.data.team2.teamname,
-        date: this.formModel.get('MatchDate').value
-      }
-      this.formModel.get('MatchDate').setValue(null);
+        date: this.formModel?.get("MatchDate")?.value,
+      };
+      this.formModel?.get("MatchDate")?.setValue(null);
       this.championshipService.addDate(body, this.onAdd);
     }
   }
@@ -49,13 +55,13 @@ export class SetDateMatchComponent implements OnInit {
       idChampionship: this.data.idChampionship,
       team1: this.data.team1.teamname,
       team2: this.data.team2.teamname,
-      date: date
-    }
+      date: date,
+    };
     this.championshipService.deleteDate(query, this.onAdd);
   }
 
   noDate(): Boolean {
-    if (this.formModel.get('MatchDate').value === null) {
+    if (this.formModel?.get("MatchDate")?.value === null) {
       return true;
     } else {
       return false;
@@ -67,15 +73,15 @@ export class SetDateMatchComponent implements OnInit {
   }
 
   noDates(): Boolean {
-    if(this.noDate() && this.getMatchDates().length === 0) {
+    if (this.noDate() && this.getMatchDates().length === 0) {
       return true;
     } else {
       return false;
     }
   }
 
-  dateFormat(date: Date): string {
-    return this.datepipe.transform(date, 'dd-MM-yyyy HH:mm');
+  dateFormat(date: Date): string | null {
+    return this.datepipe.transform(date, "dd-MM-yyyy HH:mm");
   }
 
   acceptDate(date: string) {
@@ -83,13 +89,15 @@ export class SetDateMatchComponent implements OnInit {
       idChampionship: this.data.idChampionship,
       team1: this.data.team1.teamname,
       team2: this.data.team2.teamname,
-      date: date
-    }
+      date: date,
+    };
     this.championshipService.acceptDate(body, this.onAdd);
   }
 
   canDeleteDate(): Boolean {
-    if(this.data.team1.userLeader === this.userService.getLoggeduser().username ) {
+    if (
+      this.data.team1.userLeader === this.userService.getLoggeduser()?.username
+    ) {
       return true;
     } else {
       return false;
@@ -97,7 +105,9 @@ export class SetDateMatchComponent implements OnInit {
   }
 
   canAcceptDate(): Boolean {
-    if(this.data.team2.userLeader === this.userService.getLoggeduser().username ) {
+    if (
+      this.data.team2.userLeader === this.userService.getLoggeduser()?.username
+    ) {
       return true;
     } else {
       return false;
@@ -105,15 +115,14 @@ export class SetDateMatchComponent implements OnInit {
   }
 
   maxDates(): Boolean {
-    if(this.getMatchDates().length === 5) {
+    if (this.getMatchDates().length === 5) {
       return true;
     } else {
       return false;
     }
   }
 
-  getError(): string {
+  getError(): string | null {
     return this.championshipService.getErrorSetResult();
   }
-
 }

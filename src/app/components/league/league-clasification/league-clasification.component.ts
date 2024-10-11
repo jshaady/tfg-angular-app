@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ChampionshipService } from 'src/app/services/championship.service';
-import { IClasificationTeam } from 'src/app/interfaces/iclasification-team';
+import { Component, OnInit } from "@angular/core";
+import { ChampionshipService } from "../../../services/championship.service";
+import { IClasificationTeam } from "../../../interfaces/iclasification-team";
 
 @Component({
-  selector: 'app-league-clasification',
-  templateUrl: './league-clasification.component.html',
-  styleUrls: ['./league-clasification.component.css']
+  selector: "app-league-clasification",
+  templateUrl: "./league-clasification.component.html",
+  styleUrls: ["./league-clasification.component.css"],
 })
 export class LeagueClasificationComponent implements OnInit {
-
-  constructor(private championshipService: ChampionshipService) { }
+  constructor(private championshipService: ChampionshipService) {}
 
   ngOnInit() {
     this.championshipService.setClasificationEmpty();
@@ -18,12 +17,13 @@ export class LeagueClasificationComponent implements OnInit {
     }
   }
 
-  getClasification(): IClasificationTeam[] {
+  getClasification(): IClasificationTeam[] | undefined {
     return this.championshipService.getClasification();
   }
 
   haveTeams(): Boolean {
-    if (this.championshipService.getChampionship().teamsInChampionship) return true;
+    if (this.championshipService.getChampionship()?.teamsInChampionship)
+      return true;
     else return false;
   }
 

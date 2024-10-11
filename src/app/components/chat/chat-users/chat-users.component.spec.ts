@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChatUsersComponent } from './chat-users.component';
+import { ChatUsersComponent } from "./chat-users.component";
 
-describe('UserListComponent', () => {
+describe("UserListComponent", () => {
   let component: ChatUsersComponent;
   let fixture: ComponentFixture<ChatUsersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChatUsersComponent ]
-    })
-    .compileComponents();
+      declarations: [ChatUsersComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('UserListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

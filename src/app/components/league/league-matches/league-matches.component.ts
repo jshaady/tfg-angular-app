@@ -1,25 +1,28 @@
-import { Component, OnInit, ContentChild } from '@angular/core';
-import { ChampionshipService } from 'src/app/services/championship.service';
-import { MatDialog } from '@angular/material/dialog';
-import { SetResultMatchComponent } from '../../modals/set-result-match/set-result-match.component';
-import { UserService } from 'src/app/services/user.service';
-import { IMatch } from 'src/app/interfaces/imatch';
-import { SetDateMatchComponent } from '../../modals/set-date-match/set-date-match.component';
-import { ITeam } from 'src/app/interfaces/iteam';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ContentChild } from "@angular/core";
+import { ChampionshipService } from "../../../services/championship.service";
+import { MatDialog } from "@angular/material/dialog";
+import { SetResultMatchComponent } from "../../modals/set-result-match/set-result-match.component";
+import { UserService } from "../../../services/user.service";
+import { IMatch } from "../../../interfaces/imatch";
+import { SetDateMatchComponent } from "../../modals/set-date-match/set-date-match.component";
+import { ITeam } from "../../../interfaces/iteam";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-matcheleague-s',
-  templateUrl: './league-matches.component.html',
-  styleUrls: ['./league-matches.component.css']
+  selector: "app-matcheleague-s",
+  templateUrl: "./league-matches.component.html",
+  styleUrls: ["./league-matches.component.css"],
 })
 export class LeagueMatchesComponent implements OnInit {
+  @ContentChild("paginator", { static: false }) paginator:
+    | MatPaginator
+    | undefined;
 
-  @ContentChild('paginator', {static: false}) paginator: MatPaginator;
-
-  constructor(private championshipService: ChampionshipService,
+  constructor(
+    private championshipService: ChampionshipService,
     private dialog: MatDialog,
-    private userService: UserService) { }
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.championshipService.setMatchesEmpty();
@@ -28,7 +31,7 @@ export class LeagueMatchesComponent implements OnInit {
       this.championshipService.searchChampionshipMatches();
     }
   }
-  
+
   ngOnDestroy() {
     this.championshipService.setMatchesEmpty();
     this.championshipService.setTeamnameSearched(null);
@@ -36,13 +39,13 @@ export class LeagueMatchesComponent implements OnInit {
 
   setResult(team1: ITeam, team2: ITeam): void {
     const dialogRef = this.dialog.open(SetResultMatchComponent, {
-      width: '500px',
-      height: '400px',
+      width: "500px",
+      height: "400px",
       data: {
-        'idChampionship': this.championshipService.getChampionship().id,
-        'team1': team1.teamname,
-        'team2': team2.teamname
-      }
+        idChampionship: this.championshipService.getChampionship()?.id,
+        team1: team1.teamname,
+        team2: team2.teamname,
+      },
     });
     dialogRef.componentInstance.onAdd.subscribe(() => {
       this.dialog.closeAll();
@@ -51,13 +54,13 @@ export class LeagueMatchesComponent implements OnInit {
 
   setDate(team1: ITeam, team2: ITeam): void {
     const dialogRefDate = this.dialog.open(SetDateMatchComponent, {
-      width: '500px',
-      height: '500px',
+      width: "500px",
+      height: "500px",
       data: {
-        'idChampionship': this.championshipService.getChampionship().id,
-        'team1': team1,
-        'team2': team2
-      }
+        idChampionship: this.championshipService.getChampionship()?.id,
+        team1: team1,
+        team2: team2,
+      },
     });
     dialogRefDate.componentInstance.onAdd.subscribe(() => {
       this.dialog.closeAll();
@@ -65,9 +68,13 @@ export class LeagueMatchesComponent implements OnInit {
   }
 
   canSetResult(match: IMatch): Boolean {
-    if (match.matchDate !== null && match.matchResult1 === null && match.matchResult2 === null &&
-      (match.team1.userLeader === this.userService.getLoggeduser().username ||
-        match.team2.userLeader === this.userService.getLoggeduser().username)) {
+    if (
+      match.matchDate !== null &&
+      match.matchResult1 === null &&
+      match.matchResult2 === null &&
+      (match.team1.userLeader === this.userService.getLoggeduser()?.username ||
+        match.team2.userLeader === this.userService.getLoggeduser()?.username)
+    ) {
       return true;
     } else {
       return false;
@@ -75,8 +82,13 @@ export class LeagueMatchesComponent implements OnInit {
   }
 
   canViewDates(match: IMatch): Boolean {
-    if (match.matchDate === null && match.matchResult1 === null && match.matchResult2 === null && (match.team1.userLeader === this.userService.getLoggeduser().username ||
-      match.team2.userLeader === this.userService.getLoggeduser().username)) {
+    if (
+      match.matchDate === null &&
+      match.matchResult1 === null &&
+      match.matchResult2 === null &&
+      (match.team1.userLeader === this.userService.getLoggeduser()?.username ||
+        match.team2.userLeader === this.userService.getLoggeduser()?.username)
+    ) {
       return true;
     } else {
       return false;

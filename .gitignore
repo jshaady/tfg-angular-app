@@ -4,9 +4,12 @@
 /dist
 /tmp
 /out-tsc
+/bazel-out
 
 # dependencies
 /node_modules
+npm-debug.log
+yarn-error.log
 
 # profiling files
 chrome-profiler-events.json
@@ -44,3 +47,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+.angular/*

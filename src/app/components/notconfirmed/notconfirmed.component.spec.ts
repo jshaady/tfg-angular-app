@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NotconfirmedComponent } from './notconfirmed.component';
+import { NotconfirmedComponent } from "./notconfirmed.component";
 
-describe('NotconfirmedComponent', () => {
+describe("NotconfirmedComponent", () => {
   let component: NotconfirmedComponent;
   let fixture: ComponentFixture<NotconfirmedComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotconfirmedComponent ]
-    })
-    .compileComponents();
+      declarations: [NotconfirmedComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('NotconfirmedComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

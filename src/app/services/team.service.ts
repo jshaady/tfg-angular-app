@@ -1,55 +1,59 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { ITeam } from '../interfaces/iteam';
-import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ISnackBar } from '../interfaces/isnack-bar';
-import { UserService } from './user.service';
-import { IStats } from '../interfaces/istats';
-import { TranslateService } from '@ngx-translate/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { IMatch } from '../interfaces/imatch';
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpParams,
+  HttpErrorResponse,
+} from "@angular/common/http";
+import { Router } from "@angular/router";
+import { ITeam } from "../interfaces/iteam";
+import { SnackBarComponent } from "../components/snack-bar/snack-bar.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ISnackBar } from "../interfaces/isnack-bar";
+import { UserService } from "./user.service";
+import { IStats } from "../interfaces/istats";
+import { TranslateService } from "@ngx-translate/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { IMatch } from "../interfaces/imatch";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TeamService {
+  private readonly BaseURL = "http://localhost:3000/team";
+  private team: ITeam | undefined;
+  private teams: ITeam[] | undefined;
+  private myTeamsCreated: ITeam[] | undefined;
+  private teamsSearch: ITeam[] | null = null;
+  private stats: IStats | undefined;
 
-  private readonly BaseURL = 'http://localhost:3000/team';
-  private team: ITeam;
-  private teams: ITeam[];
-  private myTeamsCreated: ITeam[];
-  private teamsSearch: ITeam[] = null;
-  private stats: IStats;
-
-  private uuidTeam: ITeam = null;
-  private uuidTeamError: string;
-  private uuid: string = null;
+  private uuidTeam: ITeam | null = null;
+  private uuidTeamError: string | null = null;
+  private uuid: string | null = null;
 
   private teamNavLinks: any = [];
   private createErrors: any = [];
 
   private isSaving: Boolean = false;
 
-  private dataSource : MatTableDataSource<IMatch>;
+  private dataSource: MatTableDataSource<IMatch> | undefined;
 
-  constructor(private http: HttpClient,
-              private snackBar: MatSnackBar,
-              private userService: UserService,
-              private router: Router,
-              private translateService: TranslateService) { }
-
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+    private router: Router,
+    private translateService: TranslateService
+  ) {}
 
   createTeam(body: any): void {
     this.createErrors = [];
-    this.http.post<ISnackBar>(this.BaseURL + '/', body).subscribe(
-      data => {
+    this.http.post<ISnackBar>(this.BaseURL + "/", body).subscribe(
+      (data) => {
         this.isSaving = false;
-        this.makeSnackBar(data.success, 'success');
-        this.router.navigate(['/team', data.id]);
+        this.makeSnackBar(data.success, "success");
+        this.router.navigate(["/team", data.id]);
       },
-      error => {
+      (error) => {
         this.isSaving = false;
         if (error.status === 409) {
           this.checkCreateFormErrors(error.error.errors);
@@ -61,7 +65,7 @@ export class TeamService {
   }
 
   searchMyTeams(): void {
-    this.http.get<ITeam[]>(this.BaseURL + '/joined').subscribe(
+    this.http.get<ITeam[]>(this.BaseURL + "/joined").subscribe(
       (data) => {
         this.teams = data;
       },
@@ -74,7 +78,7 @@ export class TeamService {
   }
 
   searchMyTeamsCreated(): void {
-    this.http.get<ITeam[]>(this.BaseURL + '/created').subscribe(
+    this.http.get<ITeam[]>(this.BaseURL + "/created").subscribe(
       (data) => {
         this.myTeamsCreated = data;
       },
@@ -82,13 +86,14 @@ export class TeamService {
         if (error instanceof HttpErrorResponse) {
           this.checkHttpErrors(error);
         }
-      });
+      }
+    );
   }
 
   searchStats(): void {
     if (this.team) {
-      const params = new HttpParams().set('teamname', this.team.teamname);
-      this.http.get<IStats>(this.BaseURL + '/stats', { params }).subscribe(
+      const params = new HttpParams().set("teamname", this.team.teamname);
+      this.http.get<IStats>(this.BaseURL + "/stats", { params }).subscribe(
         (data: IStats) => {
           this.stats = data;
           this.dataSource = new MatTableDataSource<IMatch>(data.matches);
@@ -97,26 +102,31 @@ export class TeamService {
           if (error instanceof HttpErrorResponse) {
             this.checkHttpErrors(error);
           }
-        });
+        }
+      );
     }
   }
 
-  searchTeam(teamname: string, formModel: any): void {
-    const params = new HttpParams().set('teamname', teamname);
-    this.http.get<ITeam>(this.BaseURL + '/', { params }).subscribe(
+  searchTeam(teamname: string | undefined, formModel: any): void {
+    const params = new HttpParams().set("teamname", teamname ? teamname : "");
+    this.http.get<ITeam>(this.BaseURL + "/", { params }).subscribe(
       (data) => {
         this.teamNavLinks = [];
         this.team = data;
-        this.teamNavLinks = [{
-          label: 'DESCRIPTION', path: '/team/' + this.team.teamname
-        },
-        {
-          label: 'STATS', path: '/team/' + this.team.teamname + '/stats'
-        }];
+        this.teamNavLinks = [
+          {
+            label: "DESCRIPTION",
+            path: "/team/" + this.team.teamname,
+          },
+          {
+            label: "STATS",
+            path: "/team/" + this.team.teamname + "/stats",
+          },
+        ];
         if (formModel != null) {
           formModel.patchValue({
             Description: this.team.description,
-            Location: this.team.location
+            Location: this.team.location,
           });
         }
       },
@@ -130,11 +140,11 @@ export class TeamService {
 
   editTeam(body: any): void {
     this.createErrors = [];
-    this.http.put<ISnackBar>(this.BaseURL + '/', body).subscribe(
+    this.http.put<ISnackBar>(this.BaseURL + "/", body).subscribe(
       (data) => {
         this.isSaving = false;
-        this.router.navigate(['/team', this.getTeam().teamname]);
-        this.makeSnackBar(data.success, 'success');
+        this.router.navigate(["/team", this.getTeam()!.teamname]);
+        this.makeSnackBar(data.success, "success");
       },
       (error) => {
         this.isSaving = false;
@@ -146,11 +156,11 @@ export class TeamService {
   }
 
   updateTeamAvatar(formData: any): void {
-    this.http.put<ISnackBar>(this.BaseURL + '/image', formData).subscribe(
+    this.http.put<ISnackBar>(this.BaseURL + "/image", formData).subscribe(
       (data) => {
         this.isSaving = false;
-        this.makeSnackBar(data.success, 'success');
-        this.searchTeam(this.getTeam().teamname, null);
+        this.makeSnackBar(data.success, "success");
+        this.searchTeam(this.getTeam()!.teamname, null);
       },
       (error) => {
         this.isSaving = false;
@@ -158,12 +168,12 @@ export class TeamService {
           this.checkHttpErrors(error);
         }
       }
-    )
+    );
   }
 
   searchTeamByUuid(uuid: string, modalService: any): void {
-    const params = new HttpParams().set('uuid', uuid);
-    this.http.get<ITeam>(this.BaseURL + '/search/uuid', { params }).subscribe(
+    const params = new HttpParams().set("uuid", uuid);
+    this.http.get<ITeam>(this.BaseURL + "/search/uuid", { params }).subscribe(
       (data: ITeam) => {
         this.isSaving = false;
         this.uuidTeamError = null;
@@ -184,16 +194,16 @@ export class TeamService {
     );
   }
 
-  joinTeam(team: ITeam, modalService): void {
-    this.http.post<ISnackBar>(this.BaseURL + '/join', team).subscribe(
+  joinTeam(team: ITeam | undefined, modalService: any): void {
+    this.http.post<ISnackBar>(this.BaseURL + "/join", team).subscribe(
       (data: ISnackBar) => {
-        this.makeSnackBar(data.success, 'success');
+        this.makeSnackBar(data.success, "success");
         if (modalService === null) {
-          this.searchTeam(team.teamname, null);
+          this.searchTeam(team?.teamname, null);
         } else {
           modalService.dismissAll();
         }
-        this.router.navigate(['/team', team.teamname]);
+        this.router.navigate(["/team", team?.teamname]);
       },
       (error: any) => {
         if (error instanceof HttpErrorResponse) {
@@ -207,16 +217,18 @@ export class TeamService {
   }
 
   leftTeam(): void {
-    const params = new HttpParams().set('teamname', this.team.teamname.toString()).append('username', this.userService.getLoggeduser().username);
-    this.http.delete<ISnackBar>(this.BaseURL + '/left', { params }).subscribe(
+    const params = new HttpParams()
+      .set("teamname", this.team!.teamname.toString())
+      .append("username", this.userService.getLoggeduser()!.username);
+    this.http.delete<ISnackBar>(this.BaseURL + "/left", { params }).subscribe(
       (data: ISnackBar) => {
-        this.searchTeam(this.team.teamname, null);
-        this.makeSnackBar(data.success, 'success');
+        this.searchTeam(this.team!.teamname, null);
+        this.makeSnackBar(data.success, "success");
       },
       (error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 409) {
-            this.makeSnackBar(error.error.error, 'error');
+            this.makeSnackBar(error.error.error, "error");
           } else {
             this.checkHttpErrors(error);
           }
@@ -226,8 +238,8 @@ export class TeamService {
   }
 
   searchCode(): void {
-    const params = new HttpParams().set('teamname', this.getTeam().teamname);
-    this.http.get<any>(this.BaseURL + '/uuid', { params: params }).subscribe(
+    const params = new HttpParams().set("teamname", this.getTeam()!.teamname);
+    this.http.get<any>(this.BaseURL + "/uuid", { params: params }).subscribe(
       (data: any) => {
         this.uuid = data[0].uuid;
       },
@@ -239,55 +251,59 @@ export class TeamService {
     );
   }
 
-  search(location: string, teamname: string): void {
-    const params = new HttpParams().set('location', location).append('teamname', teamname);
-    this.http.get<ITeam[]>(this.BaseURL + '/search', { params: params }).subscribe(
-      (data: ITeam[]) => {
-        this.teamsSearch = data;
-      },
-      (error: any) => {
-        this.checkHttpErrors(error);
-      }
-    );
+  search(location: string | null, teamname: string | null): void {
+    const params = new HttpParams()
+      .set("location", location ? location : "")
+      .append("teamname", teamname ? teamname : "");
+    this.http
+      .get<ITeam[]>(this.BaseURL + "/search", { params: params })
+      .subscribe(
+        (data: ITeam[]) => {
+          this.teamsSearch = data;
+        },
+        (error: any) => {
+          this.checkHttpErrors(error);
+        }
+      );
   }
 
-  getStats(): IStats {
+  getStats(): IStats | undefined {
     return this.stats;
   }
 
-  getTeam(): ITeam {
+  getTeam(): ITeam | undefined {
     return this.team;
   }
 
-  getTeams(): ITeam[] {
+  getTeams(): ITeam[] | undefined {
     return this.teams;
   }
 
-  getUuidTeam(): ITeam {
+  getUuidTeam(): ITeam | null {
     return this.uuidTeam;
   }
 
-  setUuidTeam(uuidTeam: ITeam): void {
+  setUuidTeam(uuidTeam: ITeam | null): void {
     this.uuidTeam = uuidTeam;
   }
 
-  getUuidTeamError(): string {
+  getUuidTeamError(): string | null {
     return this.uuidTeamError;
   }
 
-  setUuidTeamError(error: string): void {
+  setUuidTeamError(error: string | null): void {
     this.uuidTeamError = error;
   }
 
   getUuid(): string {
-    return this.uuid;
+    return this.uuid ? this.uuid : "";
   }
 
   setUuidNull(): void {
     this.uuid = null;
   }
 
-  getTeamSearch(): ITeam[] {
+  getTeamSearch(): ITeam[] | null {
     return this.teamsSearch;
   }
 
@@ -295,7 +311,7 @@ export class TeamService {
     return this.teamNavLinks;
   }
 
-  getMyTeamsCreated(): ITeam[] {
+  getMyTeamsCreated(): ITeam[] | undefined {
     return this.myTeamsCreated;
   }
 
@@ -322,44 +338,58 @@ export class TeamService {
   getDataSource() {
     return this.dataSource;
   }
-  
-  applyTeamStatsFilter(event: Event){
+
+  applyTeamStatsFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource!.filter = filterValue.trim().toLowerCase();
   }
-  
+
   makeSnackBar(message: String, type: String): void {
-    let typeInfoClass = '';
-    if (type === 'success') typeInfoClass = 'snack-bar-success';
-    else if (type === 'error') typeInfoClass = 'snack-bar-error';
-    else if (type === 'warning') typeInfoClass = 'snack-bar-warning';
-    this.translateService.get('responsemessages.' + message).subscribe((messageI18n: string) => {
-      this.snackBar.openFromComponent(SnackBarComponent, {
-        data: { messageContent: messageI18n },
-        panelClass: [typeInfoClass],
-        verticalPosition: 'top',
-        duration: 3000
+    let typeInfoClass = "";
+    if (type === "success") typeInfoClass = "snack-bar-success";
+    else if (type === "error") typeInfoClass = "snack-bar-error";
+    else if (type === "warning") typeInfoClass = "snack-bar-warning";
+    this.translateService
+      .get("responsemessages." + message)
+      .subscribe((messageI18n: string) => {
+        this.snackBar.openFromComponent(SnackBarComponent, {
+          data: { messageContent: messageI18n },
+          panelClass: [typeInfoClass],
+          verticalPosition: "top",
+          duration: 3000,
+        });
       });
-    });
   }
 
   private checkCreateFormErrors(errors: any): void {
     if (errors.teamExists) this.setCreateErrors(errors.teamExists);
     if (errors.teamNameNull) this.setCreateErrors(errors.teamNameNull);
-    if (errors.teamNameMinLength) this.setCreateErrors(errors.teamNameMinLength);
-    if (errors.teamNameMaxLength) this.setCreateErrors(errors.teamNameMaxLength);
+    if (errors.teamNameMinLength)
+      this.setCreateErrors(errors.teamNameMinLength);
+    if (errors.teamNameMaxLength)
+      this.setCreateErrors(errors.teamNameMaxLength);
     if (errors.userLeaderNull) this.setCreateErrors(errors.userLeaderNull);
-    if (errors.userLeaderMinLength) this.setCreateErrors(errors.userLeaderMinLength);
-    if (errors.userLeaderMaxLength) this.setCreateErrors(errors.userLeaderMaxLength);
+    if (errors.userLeaderMinLength)
+      this.setCreateErrors(errors.userLeaderMinLength);
+    if (errors.userLeaderMaxLength)
+      this.setCreateErrors(errors.userLeaderMaxLength);
     if (errors.locationNull) this.setCreateErrors(errors.locationNull);
-    if (errors.teamLocationMaxLength) this.setCreateErrors(errors.teamLocationMaxLength);
-    if (errors.teamLocationMinLength) this.setCreateErrors(errors.teamLocationMinLength);
-    if (errors.teamDescriptionNull) this.setCreateErrors(errors.teamDescriptionNull);
-    if (errors.teamDescriptionMaxLength) this.setCreateErrors(errors.teamDescriptionMaxLength);
-    if (errors.teamDescriptionMinLength) this.setCreateErrors(errors.teamDescriptionMinLength);
-    if (errors.maxNumberPlayersNull) this.setCreateErrors(errors.maxNumberPlayersNull);
-    if (errors.maxNumberPlayersMinSize) this.setCreateErrors(errors.maxNumberPlayersMinSize);
-    if (errors.maxNumberPlayersMaxSize) this.setCreateErrors(errors.maxNumberPlayersMaxSize);
+    if (errors.teamLocationMaxLength)
+      this.setCreateErrors(errors.teamLocationMaxLength);
+    if (errors.teamLocationMinLength)
+      this.setCreateErrors(errors.teamLocationMinLength);
+    if (errors.teamDescriptionNull)
+      this.setCreateErrors(errors.teamDescriptionNull);
+    if (errors.teamDescriptionMaxLength)
+      this.setCreateErrors(errors.teamDescriptionMaxLength);
+    if (errors.teamDescriptionMinLength)
+      this.setCreateErrors(errors.teamDescriptionMinLength);
+    if (errors.maxNumberPlayersNull)
+      this.setCreateErrors(errors.maxNumberPlayersNull);
+    if (errors.maxNumberPlayersMinSize)
+      this.setCreateErrors(errors.maxNumberPlayersMinSize);
+    if (errors.maxNumberPlayersMaxSize)
+      this.setCreateErrors(errors.maxNumberPlayersMaxSize);
     if (errors.isPrivate) this.setCreateErrors(errors.isPrivate);
     if (errors.dateNull) this.setCreateErrors(errors.dateNull);
     if (errors.dateIncorrect) this.setCreateErrors(errors.dateIncorrect);
@@ -369,24 +399,24 @@ export class TeamService {
     switch (error.status) {
       case 401:
         this.userService.logout();
-        this.makeSnackBar(error.error.error, 'error');
-        this.router.navigate(['']);
+        this.makeSnackBar(error.error.error, "error");
+        this.router.navigate([""]);
         break;
       case 404:
-        this.makeSnackBar(error.error.error, 'error');
-        this.router.navigate(['/not-found']);
+        this.makeSnackBar(error.error.error, "error");
+        this.router.navigate(["/not-found"]);
         break;
       case 409:
-        this.makeSnackBar(error.error.error, 'error');
+        this.makeSnackBar(error.error.error, "error");
         break;
       case 500:
-        this.makeSnackBar(error.error.error, 'error');
+        this.makeSnackBar(error.error.error, "error");
         this.userService.logout();
-        this.router.navigate(['']);
+        this.router.navigate([""]);
         break;
       default:
-        this.makeSnackBar(error.error.error, 'error');
-        this.router.navigate(['']);
+        this.makeSnackBar(error.error.error, "error");
+        this.router.navigate([""]);
         break;
     }
   }

@@ -43,9 +43,12 @@
             </div>
             <div class="dato mb-3">
               <mat-form-field class="mat-form-field">
-                <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
+                <!--<input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
                   spellcheck="false" formControlName="Location" ngx-google-places-autocomplete [options]='options'
-                  #placesRef="ngx-places" (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher">
+                  #placesRef="ngx-places" (focusout)="focusOut($event.target.value)" [errorStateMatcher]="matcher">-->
+                <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
+                  spellcheck="false" formControlName="Location" (focusout)="focusOut($event.target.value)"
+                  [errorStateMatcher]="matcher">
                 <mat-error *ngIf="formModel.get('Location').touched && formModel.get('Location').errors?.required">
                   {{'errors.fieldmandatory' | translate}}
                 </mat-error>

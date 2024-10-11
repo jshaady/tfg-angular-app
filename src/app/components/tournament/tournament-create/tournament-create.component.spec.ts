@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TournamentCreateComponent } from './tournament-create.component';
+import { TournamentCreateComponent } from "./tournament-create.component";
 
-describe('TournamentCreateComponent', () => {
+describe("TournamentCreateComponent", () => {
   let component: TournamentCreateComponent;
   let fixture: ComponentFixture<TournamentCreateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TournamentCreateComponent ]
-    })
-    .compileComponents();
+      declarations: [TournamentCreateComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TournamentCreateComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SportBarComponent } from './sport-bar.component';
+import { SportBarComponent } from "./sport-bar.component";
 
-describe('SportBarComponent', () => {
+describe("SportBarComponent", () => {
   let component: SportBarComponent;
   let fixture: ComponentFixture<SportBarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SportBarComponent ]
-    })
-    .compileComponents();
+      declarations: [SportBarComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('SportBarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

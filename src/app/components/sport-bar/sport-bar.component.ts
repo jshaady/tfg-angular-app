@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { ChampionshipService } from 'src/app/services/championship.service';
+import { Component, OnInit } from "@angular/core";
+import { ChampionshipService } from "../../services/championship.service";
 
 @Component({
-  selector: 'app-sport-bar',
-  templateUrl: './sport-bar.component.html',
-  styleUrls: ['./sport-bar.component.css']
+  selector: "app-sport-bar",
+  templateUrl: "./sport-bar.component.html",
+  styleUrls: ["./sport-bar.component.css"],
 })
 export class SportBarComponent implements OnInit {
+  constructor(private championshipService: ChampionshipService) {}
 
-  constructor(private championshipService: ChampionshipService) { }
+  ngOnInit() {}
 
-  ngOnInit() { }
-
-  changeSport(sport: string){
+  changeSport(sport: string): void {
     this.championshipService.setSearchSport(sport);
-    this.championshipService.searchChampionships()
+    this.championshipService.searchChampionships();
   }
 }

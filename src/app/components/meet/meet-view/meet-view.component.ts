@@ -1,51 +1,66 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { } from 'googlemaps';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MeetService } from 'src/app/services/meet.service';
-import { IMeet } from 'src/app/interfaces/imeet';
-import { DomSanitizer } from '@angular/platform-browser';
-import { UserService } from 'src/app/services/user.service';
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MeetService } from "../../../services/meet.service";
+import { IMeet } from "../../../interfaces/imeet";
+import { DomSanitizer } from "@angular/platform-browser";
+import { UserService } from "../../../services/user.service";
+import {
+  GoogleMapsModule,
+  MapInfoWindow,
+  MapMarker,
+} from "@angular/google-maps";
 
 @Component({
-  selector: 'app-meet-view',
-  templateUrl: './meet-view.component.html',
-  styleUrls: ['./meet-view.component.css']
+  selector: "app-meet-view",
+  templateUrl: "./meet-view.component.html",
+  styleUrls: ["./meet-view.component.css"],
 })
 export class MeetViewComponent implements OnInit {
+  /* @ViewChild("mapContainer", { static: true }) gmap: ElementRef;
 
-  @ViewChild('mapContainer', { static: true }) gmap: ElementRef;
-
-  map: google.maps.Map;
+  map: google.maps.Map; */
   countdown: any = null;
   id: any;
-  private latitude;
-  private longitude;
+  /* p; rivate latitude;
+  private longitude; */
 
-  constructor(private route: ActivatedRoute,
-              private meetService: MeetService,
-              private router: Router,
-              private sanitizer: DomSanitizer,
-              private userService: UserService) { }
+  center: google.maps.LatLngLiteral = { lat: 37.7749, lng: -122.4194 };
+  zoom = 12;
+  markerPositions: google.maps.LatLngLiteral[] = [
+    { lat: 37.7749, lng: -122.4194 },
+    { lat: 37.7849, lng: -122.4094 },
+  ];
+
+  constructor(
+    private route: ActivatedRoute,
+    private meetService: MeetService,
+    private router: Router,
+    private sanitizer: DomSanitizer,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.meetService.searchMeet(params['id']);
-      this.router.navigate(['/meet', params['id']]);
+    this.route.params.subscribe((params) => {
+      this.meetService.searchMeet(params["id"]);
+      this.router.navigate(["/meet", params["id"]]);
     });
     this.id = setInterval(() => {
-      let countDownDate = new Date(this.getMeet().date).getTime();
+      let countDownDate = new Date(this.getMeet()!.date).getTime();
       let now = new Date().getTime();
       let distance = countDownDate - now;
       let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      this.countdown = days + "d " + hours + "h "+ minutes + "m " + seconds + "s ";
+      this.countdown =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }, 1000);
   }
 
   ngAfterViewInit() {
-    setTimeout( () => {
+    setTimeout(() => {
       this.mapInitializer();
     }, 350);
   }
@@ -57,15 +72,17 @@ export class MeetViewComponent implements OnInit {
   }
 
   openMap(): void {
-    // window.location.href = 'https://www.google.es/maps/place/' + this.getMeet().location;
-    window.open('https://www.google.es/maps/place/' + this.getMeet().location, '_blank')
+    /* window.open(
+      "https://www.google.es/maps/place/" + this.getMeet().location,
+      "_blank"
+    ); */
   }
 
   mapInitializer() {
-    const geocoder = new google.maps.Geocoder();
+    /* const geocoder = new google.maps.Geocoder();
     let address = this.getMeet().location;
 
-    geocoder.geocode({ 'address': address }, (results, status) => {
+    geocoder.geocode({ address: address }, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
         this.latitude = results[0].geometry.location.lat();
         this.longitude = results[0].geometry.location.lng();
@@ -75,11 +92,10 @@ export class MeetViewComponent implements OnInit {
         position: coordinates,
         map: this.map,
       });
-      this.map = new google.maps.Map(
-        document.getElementById('map'), {
+      this.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 12,
         center: coordinates,
-        gestureHandling: 'none',
+        gestureHandling: "none",
         zoomControl: false,
         scaleControl: false,
         streetViewControl: false,
@@ -88,21 +104,22 @@ export class MeetViewComponent implements OnInit {
         rotateControl: false,
         mapTypeControl: false,
         keyboardShortcuts: false,
-        draggableCursor: 'default'
-      }
-      );
+        draggableCursor: "default",
+      });
       marker.setMap(this.map);
-    });
+    }); */
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 
-  getMeet(): IMeet {
+  getMeet(): IMeet | undefined {
     return this.meetService.getMeet();
   }
 
   isInMeet(): Boolean {
-    const user = this.getMeet().usersInMeet.find( user => this.userService.getLoggeduser().username === user.username);
+    const user = this.getMeet()?.usersInMeet.find(
+      (user) => this.userService.getLoggeduser()?.username === user.username
+    );
     if (user) return true;
     else return false;
   }
@@ -119,13 +136,18 @@ export class MeetViewComponent implements OnInit {
     this.meetService.leftMeet();
   }
 
-  getUserAvatar(avatarEncode, avatarType): any {
-    if (avatarEncode != null && avatarType != null && avatarEncode != undefined && avatarType != undefined){
-        return this.sanitizer.bypassSecurityTrustResourceUrl('data:' + avatarType + ';base64,' 
-        + avatarEncode);
-    }
-    else{
-      return '../../../../assets/img/default.png';
+  getUserAvatar(avatarEncode: string, avatarType: string): any {
+    if (
+      avatarEncode != null &&
+      avatarType != null &&
+      avatarEncode != undefined &&
+      avatarType != undefined
+    ) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        "data:" + avatarType + ";base64," + avatarEncode
+      );
+    } else {
+      return "../../../../assets/img/default.png";
     }
   }
 }

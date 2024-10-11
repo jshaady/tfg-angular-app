@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LeagueClasificationComponent } from './league-clasification.component';
+import { LeagueClasificationComponent } from "./league-clasification.component";
 
-describe('LeagueClasificationComponent', () => {
+describe("LeagueClasificationComponent", () => {
   let component: LeagueClasificationComponent;
   let fixture: ComponentFixture<LeagueClasificationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeagueClasificationComponent ]
-    })
-    .compileComponents();
+      declarations: [LeagueClasificationComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('LeagueClasificationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

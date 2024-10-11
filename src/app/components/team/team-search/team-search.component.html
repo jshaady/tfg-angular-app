@@ -6,9 +6,11 @@
           <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 ">
             <div class="dato">
               <mat-form-field class="mat-form-field">
-                <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
+                <!--<input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
                   spellcheck="false" formControlName="Location" ngx-google-places-autocomplete [options]='options'
-                  #placesRef="ngx-places" (focusout)="focusOut($event.target.value)">
+                  #placesRef="ngx-places" (focusout)="focusOut($event.target.value)">-->
+                <input matInput placeholder="{{'teams.location' | translate}}" autocorrect="off" autocapitalize="off"
+                  spellcheck="false" formControlName="Location" (focusout)="focusOut($event.target.value)">
               </mat-form-field>
             </div>
           </div>
@@ -21,8 +23,8 @@
             </div>
           </div>
           <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-            <button type="submit" class="button-submit form-control"
-              mat-raised-button>{{'teams.search' | translate}}</button>
+            <button type="submit" class="button-submit form-control" mat-raised-button>{{'teams.search' |
+              translate}}</button>
           </div>
         </div>
       </form>
@@ -30,7 +32,8 @@
     <div class="col-12" *ngIf="getTeamsSearch()">
       <div class="row teams-wrapper justify-content-center">
         <div class="no-teams mt-4 text-center" *ngIf="!getTeamsSearch().length">
-          <h3>{{'teams.noteamfound' | translate}}</h3></div>
+          <h3>{{'teams.noteamfound' | translate}}</h3>
+        </div>
         <div *ngIf="getTeamsSearch().length" class="col-12">
           <div [routerLink]="['/team', team.teamname]" *ngFor="let team of getTeamsSearch()">
             <mat-card class="team-card">

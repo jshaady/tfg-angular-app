@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { UserService } from 'src/app/services/user.service';
-import { SignUpComponent } from '../modals/sign-up/sign-up.component';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { UserService } from "../../services/user.service";
+import { SignUpComponent } from "../modals/sign-up/sign-up.component";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  selector: "app-welcome",
+  templateUrl: "./welcome.component.html",
+  styleUrls: ["./welcome.component.css"],
 })
 export class WelcomeComponent implements OnInit {
+  constructor(
+    private dialog: MatDialog,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
-  constructor(private dialog: MatDialog,
-              private userService: UserService,
-              private router: Router) { }
-
-  ngOnInit() { 
+  ngOnInit() {
     if (this.userService.loggedIn()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(["/home"]);
     }
   }
 
@@ -30,9 +31,9 @@ export class WelcomeComponent implements OnInit {
   }
 
   openSignUp(): void {
-    console.log('signUp')
+    console.log("signUp");
     const dialogRef = this.dialog.open(SignUpComponent, {
-      width: '400px'
+      width: "400px",
     });
     dialogRef.componentInstance.onAdd.subscribe(() => {
       this.dialog.closeAll();
@@ -41,6 +42,4 @@ export class WelcomeComponent implements OnInit {
       this.userService.resetErrorSignUp();
     });
   }
-
-  
 }

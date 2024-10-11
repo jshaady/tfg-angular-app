@@ -1,41 +1,55 @@
-import { Component, OnInit, ContentChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { UserService } from 'src/app/services/user.service';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit, ContentChild } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { UserService } from "../../../services/user.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.css']
+  selector: "app-users-list",
+  templateUrl: "./users-list.component.html",
+  styleUrls: ["./users-list.component.css"],
 })
 export class UsersListComponent implements OnInit {
+  @ContentChild("paginator", { static: false }) paginator!: MatPaginator;
 
-  @ContentChild('paginator', {static: false}) paginator: MatPaginator;
+  displayedColumns: string[] = [
+    "username",
+    "email",
+    "birthdate",
+    "phone",
+    "delete",
+  ];
+  confirmDeleteUsername: string | null = null;
 
-  displayedColumns: string[] = ['username', 'email', 'birthdate', 'phone', 'delete'];
-  confirmDeleteUsername: string = null;
+  formModel: FormGroup | undefined;
 
-  formModel = this.fb.group({
-    nameOrEmail: [null]
-  });
-
-  constructor(private userService: UserService, private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userService.searchUsersList();
+    this.formModel = this.fb.group({
+      nameOrEmail: [null],
+    });
   }
 
   searchByFilter(filterValue: string): void {
-    if(this.userService.getUserSearchNameOrEmail() !== filterValue) {
+    if (this.userService.getUserSearchNameOrEmail() !== filterValue) {
       this.userService.getUserListPageOptions().pageIndex = 0;
-      this.userService.setUserSearchNameOrEmail(filterValue!== null && filterValue.trim().length !== 0 ? filterValue : null);
+      this.userService.setUserSearchNameOrEmail(
+        filterValue !== null && filterValue.trim().length !== 0
+          ? filterValue
+          : null
+      );
       this.userService.searchUsersList();
     }
   }
 
   goToUserProfile(username: string): void {
-    this.router.navigate(['/user/' + username]);
+    this.router.navigate(["/user/" + username]);
   }
 
   getDataSource(): any {
@@ -51,17 +65,20 @@ export class UsersListComponent implements OnInit {
     return this.userService.getUserListPageOptions();
   }
 
-  getUserSearchNameOrEmail(): string {
+  getUserSearchNameOrEmail(): string | null {
     return this.userService.getUserSearchNameOrEmail();
   }
 
   selectForDelete(username: string): void {
-    this.confirmDeleteUsername = username
+    this.confirmDeleteUsername = username;
   }
 
   checkDelete(username: string): Boolean {
-    if(username === this.confirmDeleteUsername) { return true; }
-    else { return false; }
+    if (username === this.confirmDeleteUsername) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   deleteUser(username: string): void {
